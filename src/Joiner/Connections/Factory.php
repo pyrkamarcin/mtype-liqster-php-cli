@@ -21,9 +21,10 @@ class Factory
     public static function createInstaxer($username, $password): Instaxer
     {
         $fs = new Filesystem();
-        $fs->mkdir('./instaxer/profiles');
+        $dirPath = './var/cache/instaxer/profiles';
+        $fs->mkdir($dirPath);
 
-        $path = './instaxer/profiles/' . $username . '.dat';
+        $path = $dirPath . '/' . $username . '.dat';
         $instaxer = new Instaxer($path);
         $instaxer->login($username, $password);
 
