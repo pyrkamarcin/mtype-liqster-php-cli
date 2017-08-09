@@ -1,9 +1,9 @@
 {
   "name": "pyrkamarcin/joiner",
-  "description": "none",
+  "description": "",
   "type": "project",
   "minimum-stability": "stable",
-  "license": "MIT",
+  "license": "proprietary",
   "autoload": {
     "psr-4": {
       "Joiner\\": "src/Joiner"
