@@ -9,8 +9,16 @@
       "Joiner\\": "src/Joiner"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    },
+    "files": [
+      "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php"
+    ]
+  },
   "require": {
-    "php": ">=5.5",
+    "php": ">=7.0",
     "ext-curl": "*",
     "guzzlehttp/guzzle": "^6.2",
     "kevinrob/guzzle-cache-middleware": "^1.5",
@@ -21,7 +29,6 @@
     "pyrkamarcin/instaxer": "dev-master"
   },
   "require-dev": {
-    "symfony/var-dumper": "^3.3",
     "phpunit/phpunit": "^6.1",
     "codacy/coverage": "^1.1.0"
   },
