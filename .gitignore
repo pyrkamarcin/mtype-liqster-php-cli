@@ -4,3 +4,4 @@
 /vendor/
 /var/cache/instaxer/profiles/*.dat
 /tests/coverage/
+/instaxer/profiles/*.dat
