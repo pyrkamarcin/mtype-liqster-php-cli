@@ -26,24 +26,37 @@ class Push
         $dirPath = __DIR__ . '/../../../vendor/pyrkamarcin/instaxer/app/storage/';
         $filesystem = new Filesystem();
         $filesystem->mkdir($dirPath);
+        $filesystem->touch(__DIR__ . '/../../../vendor/pyrkamarcin/instaxer/app/storage/storage.tmp');
 
-        $downloader = new Downloader();
-        $downloader->drain('http://' . $url);
+        if (self::checkUnique($url)) {
+            file_put_contents(__DIR__ . '/../../../vendor/pyrkamarcin/instaxer/app/storage/storage.tmp', $url . ';', FILE_APPEND);
 
-        $manager = new ImageManager(array('driver' => 'gd'));
-        $imageBg = $manager->canvas(1080, 1080, '#ffffff');
 
-        $image = $manager
-            ->make($dirPath . 'test.jpg')
-            ->resize(1080, 1080, function ($constraint) {
-                $constraint->aspectRatio();
-            })
-            ->save($dirPath . 'test.jpg');
+            $downloader = new Downloader();
+            $downloader->drain('http://' . $url);
 
-        $imageBg->insert($image, 'center')->save($dirPath . 'test1.jpg');
+            $manager = new ImageManager(array('driver' => 'gd'));
+            $imageBg = $manager->canvas(1080, 1080, '#ffffff');
 
-        $requestPublishPhoto = new Request\PublishPhoto($instaxer);
+            $image = $manager
+                ->make($dirPath . 'test.jpg')
+                ->resize(1080, 1080, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->save($dirPath . 'test.jpg');
 
-        return $requestPublishPhoto->pull($dirPath . 'test1.jpg', 'REPOST FROM maxmodels.pl #maxmodels #polishmodel #nudemodel #polishgirl #sexyback #sexylingerie #sexygirl #sexyginger #gingerhair #skinnybody #bodygoals #perfectbody #perfectgirl #sexyass #hotbutt #hotmodel #hotbody #instalingerie #lingerieaddict #sensualmood #boudoirmodel #dessous #nudeart #instagirl #instamood');
+            $imageBg->insert($image, 'center')->save($dirPath . 'test1.jpg');
+
+            $requestPublishPhoto = new Request\PublishPhoto($instaxer);
+
+            return $requestPublishPhoto->pull($dirPath . 'test1.jpg', 'REPOST FROM maxmodels.pl #maxmodels #polishmodel #nudemodel #polishgirl #sexyback #sexylingerie #sexygirl #sexyginger #gingerhair #skinnybody #bodygoals #perfectbody #perfectgirl #sexyass #hotbutt #hotmodel #hotbody #instalingerie #lingerieaddict #sensualmood #boudoirmodel #dessous #nudeart #instagirl #instamood');
+        }
+    }
+
+    private static function checkUnique(string $url)
+    {
+        $repository = file_get_contents(__DIR__ . '/../../../vendor/pyrkamarcin/instaxer/app/storage/storage.tmp');
+        $haystack = explode(';', $repository);
+        return !in_array($url, $haystack, true);
     }
 }

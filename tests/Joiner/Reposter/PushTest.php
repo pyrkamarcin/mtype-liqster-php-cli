@@ -16,6 +16,8 @@ class PushTest extends \PHPUnit\Framework\TestCase
 
         $data = $images->get();
 
+        dump($data);
+
         $sigleData = $data[0];
 
         $response = Push::repostPhotoByURL($sigleData->getUrl(), $instaxer);
