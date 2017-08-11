@@ -15,6 +15,7 @@ try {
     foreach ($data as $singleData) {
         $response = Push::repostPhotoByURL($singleData->getUrl(), $instaxer);
         print 'ok' . "\r\n";
+        sleep(random_int(2, 15));
     }
 } catch (\Exception $exception) {
     print 'error: ' . $exception->getMessage() . "\r\n";
