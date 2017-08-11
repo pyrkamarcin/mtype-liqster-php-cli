@@ -4,8 +4,9 @@ use Instagram\API\Response\ConfigureMediaResponse;
 use Joiner\Connections\Factory;
 use Joiner\Repository\Images;
 use Joiner\Reposter\Push;
+use PHPUnit\Framework\TestCase;
 
-class PushTest extends \PHPUnit\Framework\TestCase
+class PushTest extends TestCase
 {
     public function testRepostPhotoByURL()
     {
@@ -15,8 +16,6 @@ class PushTest extends \PHPUnit\Framework\TestCase
         $images = new Images($maxer);
 
         $data = $images->get();
-
-        dump($data);
 
         $sigleData = $data[0];
 

@@ -19,7 +19,7 @@ class Push
      * @param string $url
      * @param Instaxer $instaxer
      * @return ConfigureMediaResponse
-     * @throws \Symfony\Component\Filesystem\Exception\IOException
+     * @throws \Exception
      */
     public static function repostPhotoByURL(string $url, Instaxer $instaxer): ConfigureMediaResponse
     {
@@ -51,6 +51,8 @@ class Push
 
             return $requestPublishPhoto->pull($dirPath . 'test1.jpg', 'REPOST FROM maxmodels.pl #maxmodels #polishmodel #nudemodel #polishgirl #sexyback #sexylingerie #sexygirl #sexyginger #gingerhair #skinnybody #bodygoals #perfectbody #perfectgirl #sexyass #hotbutt #hotmodel #hotbody #instalingerie #lingerieaddict #sensualmood #boudoirmodel #dessous #nudeart #instagirl #instamood');
         }
+
+        throw new \RuntimeException('url is not unique');
     }
 
     private static function checkUnique(string $url)
