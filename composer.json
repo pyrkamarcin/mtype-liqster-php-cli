@@ -20,10 +20,6 @@
   "require": {
     "php": ">=7.0",
     "ext-curl": "*",
-    "guzzlehttp/guzzle": "^6.2",
-    "kevinrob/guzzle-cache-middleware": "^1.5",
-    "doctrine/cache": "^1.6",
-    "psr/cache": "^1.0",
     "symfony/symfony": "^3.3.6",
     "pyrkamarcin/maxmodels-sdk-php": "dev-master",
     "pyrkamarcin/instaxer": "dev-master",
