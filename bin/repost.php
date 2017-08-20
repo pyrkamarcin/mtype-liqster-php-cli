@@ -6,7 +6,7 @@ use Joiner\Connections\Factory;
 use Joiner\Repository\Images;
 use Joiner\Reposter\Push;
 
-$instaxer = Factory::createInstaxer('jiwacut@matchpol.net', '(X:\]{v(Y.77?La)');
+$instaxer = Factory::createInstaxer('maxmodels.insta', '(X:\]{v(Y.77?La)');
 $maxer = Factory::createMaxer('jiwacut@matchpol.net', '(X:\]{v(Y.77?La)');
 $images = new Images($maxer);
 $data = $images->get();
