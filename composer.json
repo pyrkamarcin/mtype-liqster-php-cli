@@ -32,7 +32,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/pyrkamarcin/maxmodels-sdk-php"
+      "url": "https://gitlab.com/pyrkamarcin/maxmodels-sdk-php"
     },
     {
       "type": "vcs",
