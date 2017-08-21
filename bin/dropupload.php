@@ -1,14 +1,25 @@
 <?php
 
-require __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
-use Alorel\Dropbox\Operation\AbstractOperation;
-use Alorel\Dropbox\Operation\Files\Upload;
+use Joiner\Connections\Factory;
+use Joiner\Repository\Images;
+use Joiner\Reposter\Push;
 
-AbstractOperation::setDefaultAsync(false);
-AbstractOperation::setDefaultToken('MTn5Od3DgSMAAAAAAAAaD2ucStBCuS6I3iuy1dNwqvIoe3HcXnu8nJGXBIuDmmi5');
+$instaxer = Factory::createInstaxer('maxmodels.insta', '(X:\]{v(Y.77?La)');
+$maxer = Factory::createMaxer('jiwacut@matchpol.net', '(X:\]{v(Y.77?La)');
+$images = new Images($maxer);
+$data = $images->get();
 
-$op = new Upload();
-$name = '/foo1.php';
+try {
+    foreach ($data as $singleData) {
 
-$op->raw($name, \GuzzleHttp\Psr7\stream_for(fopen(__DIR__ . '/../.gitignore', 'r')));
+        dump($singleData);
+        $response = Push::downloadPhotoByURLToDropbox($singleData->getUrl());
+
+        print 'ok' . "\r\n";
+        sleep(random_int(2, 5));
+    }
+} catch (\Exception $exception) {
+    print 'error: ' . $exception->getMessage() . "\r\n";
+}
