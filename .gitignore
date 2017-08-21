@@ -5,3 +5,5 @@
 /var/cache/instaxer/profiles/*.dat
 /tests/coverage/
 /instaxer/profiles/*.dat
+/config/config.php
+/storage/*.tmp

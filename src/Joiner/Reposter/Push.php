@@ -2,6 +2,8 @@
 
 namespace Joiner\Reposter;
 
+use Alorel\Dropbox\Operation\AbstractOperation;
+use Alorel\Dropbox\Operation\Files\Upload;
 use Instagram\API\Response\ConfigureMediaResponse;
 use Instaxer\Downloader;
 use Instaxer\Instaxer;
@@ -28,6 +30,9 @@ class Push
         $filesystem->mkdir($dirPath);
         $filesystem->touch(__DIR__ . '/../../../vendor/pyrkamarcin/instaxer/app/storage/storage.tmp');
 
+        AbstractOperation::setDefaultAsync(false);
+        AbstractOperation::setDefaultToken('MTn5Od3DgSMAAAAAAAAaD2ucStBCuS6I3iuy1dNwqvIoe3HcXnu8nJGXBIuDmmi5');
+
         if (self::checkUnique($url)) {
             file_put_contents(__DIR__ . '/../../../vendor/pyrkamarcin/instaxer/app/storage/storage.tmp', $url . ';', FILE_APPEND);
 
@@ -48,6 +53,11 @@ class Push
             $imageBg->insert($image, 'center')->save($dirPath . 'test1.jpg');
 
             $requestPublishPhoto = new Request\PublishPhoto($instaxer);
+
+            $op = new Upload();
+            $name = '/' . random_int(1, 1000000) . '.jpg';
+
+            $op->raw($name, \GuzzleHttp\Psr7\stream_for(fopen($dirPath . 'test1.jpg', 'r')));
 
             return $requestPublishPhoto->pull($dirPath . 'test1.jpg', 'REPOST FROM maxmodels.pl #maxmodels #polishmodel #nudemodel #polishgirl #sexyback #sexylingerie #sexygirl #sexyginger #gingerhair #skinnybody #bodygoals #perfectbody #perfectgirl #sexyass #hotbutt #hotmodel #hotbody #instalingerie #lingerieaddict #sensualmood #boudoirmodel #dessous #nudeart #instagirl #instamood');
         }
