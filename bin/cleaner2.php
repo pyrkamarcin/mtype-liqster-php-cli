@@ -29,18 +29,18 @@ try {
 
         if (!$whiteList->check($profile->getUserName())) {
 
-            if ($userMostImportantStat < 5000) {
+            if ($userMostImportantStat < 10000) {
                 echo $c . ": \t";
                 $instaxer->instagram->unfollowUser($user);
                 echo $user->getUsername() . ' ' . $userMostImportantStat . ' [ out ] ' . "\r\n";
 
-                sleep(random_int(10, 20));
+                sleep(random_int(1, 20));
             } else {
 
                 echo $c . ": \t";
                 echo $user->getUsername() . ' ' . $userMostImportantStat . ' [ skip - too preaty ! ] ' . "\r\n";
 
-                sleep(random_int(20, 60));
+                sleep(random_int(1, 5));
             }
         } else {
             echo $c . ": \t";
