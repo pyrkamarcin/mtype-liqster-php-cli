@@ -21,7 +21,7 @@ try {
     foreach ($data as $singleData) {
 
         dump($singleData);
-        $response = Push::repostPhotoByURL($singleData->getUrl(), $instaxer);
+        $response = Push::repostPhotoByURL($singleData->getUrl(), $instaxer, $user);
 
         print 'ok' . "\r\n";
         Sleep::run(10, true);

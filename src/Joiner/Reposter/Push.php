@@ -9,6 +9,7 @@ use Instaxer\Downloader;
 use Instaxer\Instaxer;
 use Instaxer\Request;
 use Intervention\Image\ImageManager;
+use Maxer\API\Model\User;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -65,7 +66,7 @@ class Push
      * @return ConfigureMediaResponse
      * @throws \Exception
      */
-    public static function repostPhotoByURL(string $url, Instaxer $instaxer): ConfigureMediaResponse
+    public static function repostPhotoByURL(string $url, Instaxer $instaxer, User $user): ConfigureMediaResponse
     {
         $dirPath = __DIR__ . '/../../../vendor/pyrkamarcin/instaxer/app/storage/';
         $filesystem = new Filesystem();
@@ -96,7 +97,10 @@ class Push
 
             $requestPublishPhoto = new Request\PublishPhoto($instaxer);
 
-            return $requestPublishPhoto->pull($dirPath . 'test1.jpg', 'REPOST FROM maxmodels.pl #maxmodels #polishmodel #nudemodel #polishgirl #sexyback #sexylingerie #sexygirl #sexyginger #gingerhair #skinnybody #bodygoals #perfectbody #perfectgirl #sexyass #hotbutt #hotmodel #hotbody #instalingerie #lingerieaddict #sensualmood #boudoirmodel #dessous #nudeart #instagirl #instamood');
+            return $requestPublishPhoto->pull($dirPath . 'test1.jpg', 'REPOST FROM maxmodels.pl; ' .
+                'Model: ' . $user->getName() . ', ' . $user->getFullName() .
+                ' #maxmodels #polishmodel #nudemodel #polishgirl #sexyback #sexylingerie #sexygirl #sexyginger #gingerhair #skinnybody #bodygoals #perfectbody #perfectgirl #sexyass #hotbutt #hotmodel #hotbody #instalingerie #lingerieaddict #sensualmood #boudoirmodel #dessous #nudeart #instagirl #instamood');
+
         }
 
         throw new \RuntimeException('url is not unique');
