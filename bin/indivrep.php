@@ -5,6 +5,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use Joiner\Connections\Factory;
 use Joiner\Repository\Profile;
 use Joiner\Reposter\Push;
+use Joiner\Sleep;
 use Maxer\API\Model\User;
 
 $instaxer = Factory::createInstaxer('maxmodels.insta', '(X:\]{v(Y.77?La)');
@@ -23,7 +24,7 @@ try {
         $response = Push::repostPhotoByURL($singleData->getUrl(), $instaxer);
 
         print 'ok' . "\r\n";
-        sleep(random_int(2, 15));
+        Sleep::run(10, true);
     }
 } catch (\Exception $exception) {
     print 'error: ' . $exception->getMessage() . "\r\n";

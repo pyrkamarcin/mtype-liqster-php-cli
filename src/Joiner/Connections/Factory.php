@@ -4,7 +4,6 @@ namespace Joiner\Connections;
 
 use Instaxer\Instaxer;
 use Maxer\Maxer;
-use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class Factory
@@ -20,12 +19,8 @@ class Factory
      */
     public static function createInstaxer($username, $password): Instaxer
     {
-        $fs = new Filesystem();
-        $dirPath = __DIR__ . '/../../../../var/cache/instaxer/profiles';
-        $fs->mkdir($dirPath);
 
-        $path = $dirPath . '/' . $username . '.dat';
-        $instaxer = new Instaxer($path);
+        $instaxer = new Instaxer((new Path($username))->getPath());
         $instaxer->login($username, $password);
 
         return $instaxer;

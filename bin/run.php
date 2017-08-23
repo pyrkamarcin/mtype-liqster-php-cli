@@ -1,13 +1,15 @@
 <?php
 
+use Joiner\Connections\Factory;
+use Joiner\Sleep;
+
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../config/config.php';
 
 try {
-    $path = __DIR__ . '/var/cache/instaxer/profiles/' . $array[$argv[1]]['username'] . '.dat';
-
-    $instaxer = new \Instaxer\Instaxer($path);
-    $instaxer->login($array[1]['username'], $array[1]['password']);
+    $username = $array[$argv[1]]['username'];
+    $password = $array[$argv[1]]['password'];
+    $instaxer = Factory::createInstaxer($username, $password);
 
     $counter = 2;
     $long = 4;
@@ -43,13 +45,12 @@ try {
                 echo sprintf('[liked] ');
             }
 
-            sleep(random_int(0, 30));
+            Sleep::run(20, true);
             echo sprintf("\r\n");
         }
 
-        sleep(random_int(10, 20));
+        Sleep::run(20, true);
     }
-
 } catch (Exception $e) {
     echo $e->getMessage() . "\n";
 }

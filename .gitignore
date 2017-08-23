@@ -6,4 +6,4 @@
 /tests/coverage/
 /instaxer/profiles/*.dat
 /config/config.php
-/storage/*.tmp
+/var/storage/*.tmp

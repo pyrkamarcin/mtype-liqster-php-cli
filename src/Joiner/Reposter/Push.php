@@ -17,6 +17,10 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class Push
 {
+    /**
+     * @param string $url
+     * @return \GuzzleHttp\Promise\PromiseInterface|\Psr\Http\Message\ResponseInterface
+     */
     public static function downloadPhotoByURLToDropbox(string $url)
     {
 
@@ -98,7 +102,11 @@ class Push
         throw new \RuntimeException('url is not unique');
     }
 
-    private static function checkUnique(string $url)
+    /**
+     * @param string $url
+     * @return bool
+     */
+    private static function checkUnique(string $url): bool
     {
         $repository = file_get_contents(__DIR__ . '/../../../vendor/pyrkamarcin/instaxer/app/storage/storage.tmp');
         $haystack = explode(';', $repository);

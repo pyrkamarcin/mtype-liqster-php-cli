@@ -1,23 +1,18 @@
 <?php
 
 use Instaxer\Domain\Model\ItemRepository;
-use Instaxer\Instaxer;
 use Instaxer\Request\Followers;
 use Instaxer\Request\Following;
-use Symfony\Component\Filesystem\Filesystem;
+use Joiner\Connections\Factory;
+use Joiner\Sleep;
 
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../config/config.php';
 
 try {
-    $pathDir = __DIR__ . '/../var/cache/instaxer/profiles/';
-    $path = $pathDir . $array[$argv[1]]['username'] . '.dat';
-
-    $fs = new Filesystem();
-    $fs->mkdir($pathDir);
-
-    $instaxer = new Instaxer($path);
-    $instaxer->login($array[$argv[1]]['username'], $array[$argv[1]]['password']);
+    $username = $array[$argv[1]]['username'];
+    $password = $array[$argv[1]]['password'];
+    $instaxer = Factory::createInstaxer($username, $password);
 
     $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
 
@@ -47,26 +42,23 @@ try {
                         $userFollow = true;
                     }
                 }
-                $file = file_get_contents(__DIR__ . '/../storage/' . $array[$argv[1]]['username'] . '.tmp');
+                $file = file_get_contents(__DIR__ . '/../var/storage/' . $array[$argv[1]]['username'] . '.tmp');
                 $haystack = explode(';', $file);
                 if (!in_array($user->getUsername(), $haystack, true)) {
                     if ($userFollow !== true) {
-                        echo $user->getUsername() . ' nie obserwuje mnie' . "\r\n";
+                        echo $user->getUsername() . ' do not following me' . "\r\n";
                         $response = $instaxer->instagram->followUser($user);
 
-                        dump($response->getStatus());
+                        dump($response);
 
-                        file_put_contents(__DIR__ . '/../storage/' . $array[$argv[1]]['username'] . '.tmp', $user->getUsername() . ';', FILE_APPEND);
+                        file_put_contents(__DIR__ . '/../var/storage/' . $array[$argv[1]]['username'] . '.tmp', $user->getUsername() . ';', FILE_APPEND);
 
-                        $idleTime = random_int(10, 50);
-                        dump($idleTime);
-                        sleep($idleTime);
+                        Sleep::run(20, true);
                     }
                 }
             }
         }
     }
-
 } catch (Exception $e) {
     echo $e->getMessage() . "\n";
 }

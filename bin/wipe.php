@@ -1,13 +1,15 @@
 <?php
 
+use Joiner\Connections\Factory;
+use Joiner\Sleep;
+
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../config/config.php';
 
 try {
-    $path = __DIR__ . '/var/cache/instaxer/profiles/' . $array[$argv[1]]['username'] . '.dat';
-
-    $instaxer = new \Instaxer\Instaxer($path);
-    $instaxer->login($array[1]['username'], $array[1]['password']);
+    $username = $array[$argv[1]]['username'];
+    $password = $array[$argv[1]]['password'];
+    $instaxer = Factory::createInstaxer($username, $password);
 
     $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
 
@@ -20,14 +22,12 @@ try {
             echo $item->getLikeCount() . ' ' . $item->getCommentCount();
             echo "\r\n";
 
-            sleep(10);
+            Sleep::run(20, true);
         } else {
             echo 'skip: ' . $item->getLikeCount() . ' ' . $item->getCommentCount();
             echo "\r\n";
         }
     }
-
 } catch (Exception $e) {
     echo $e->getMessage() . "\n";
 }
-exit();

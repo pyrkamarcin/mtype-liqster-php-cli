@@ -1,13 +1,15 @@
 <?php
 
+use Joiner\Connections\Factory;
+use Joiner\Sleep;
+
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../config/config.php';
 
 try {
-    $path = __DIR__ . '/var/cache/instaxer/profiles/' . $array[$argv[1]]['username'] . '.dat';
-
-    $instaxer = new \Instaxer\Instaxer($path);
-    $instaxer->login($array[$argv[1]]['username'], $array[$argv[1]]['password']);
+    $username = $array[$argv[1]]['username'];
+    $password = $array[$argv[1]]['password'];
+    $instaxer = Factory::createInstaxer($username, $password);
 
     $locations = $instaxer->instagram->searchFacebookPlacesByLocation(53.431831, 14.553599);
 
@@ -27,13 +29,12 @@ try {
             echo sprintf('id: %s,  ', $id);
             echo sprintf('followers: %s,  ratio: %s, ', $user->getFollowerCount(), round($followRatio, 1));
 
-            $instaxer->instagram->likeMedia($hashTagFeedItem->getID());
+            $instaxer->instagram->likeMedia($hashTagFeedItem->getId());
             echo sprintf('[liked] ');
 
-            sleep(random_int(10, 20));
             echo sprintf("\r\n");
+            Sleep::run(20, true);
         }
-        sleep(random_int(10, 20));
     }
 
 } catch (Exception $e) {

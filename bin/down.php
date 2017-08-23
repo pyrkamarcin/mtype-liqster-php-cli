@@ -3,15 +3,16 @@
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../config/config.php';
 
-use Instaxer\Instaxer;
+use Instaxer\Downloader;
 use Instaxer\Request\Followers;
 use Instaxer\Request\Following;
+use Joiner\Connections\Factory;
+use Joiner\Sleep;
 
 try {
-    $path = __DIR__ . '/var/cache/instaxer/profiles/' . $array[$argv[1]]['username'] . '.dat';
-
-    $instaxer = new Instaxer($path);
-    $instaxer->login($array[$argv[1]]['username'], $array[$argv[1]]['password']);
+    $username = $array[$argv[1]]['username'];
+    $password = $array[$argv[1]]['password'];
+    $instaxer = Factory::createInstaxer($username, $password);
 
     $profile = $instaxer->instagram->getCurrentUserAccount()->getUser();
 
@@ -30,11 +31,11 @@ try {
             if ($item->getLikeCount()) {
 
                 $image = $item->getImageVersions2()->getCandidates();
-                $downloader = new \Instaxer\Downloader();
+                $downloader = new Downloader();
                 $downloader->drain($image[0]->getUrl());
 
                 echo '.';
-                sleep(random_int(1, 2));
+                Sleep::run(5, true);
             }
         }
     }
@@ -42,4 +43,3 @@ try {
 } catch (Exception $e) {
     echo $e->getMessage() . "\n";
 }
-exit();

@@ -5,6 +5,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use Joiner\Connections\Factory;
 use Joiner\Repository\Images;
 use Joiner\Reposter\Push;
+use Joiner\Sleep;
 
 $instaxer = Factory::createInstaxer('maxmodels.insta', '(X:\]{v(Y.77?La)');
 $maxer = Factory::createMaxer('jiwacut@matchpol.net', '(X:\]{v(Y.77?La)');
@@ -18,8 +19,9 @@ try {
         $response = Push::downloadPhotoByURLToDropbox($singleData->getUrl());
 
         print 'ok' . "\r\n";
-        sleep(random_int(2, 5));
+
+        Sleep::run(5, true);
     }
 } catch (\Exception $exception) {
-    print 'error: ' . $exception->getMessage() . "\r\n";
+    echo 'error: ' . $exception->getMessage() . "\r\n";
 }
