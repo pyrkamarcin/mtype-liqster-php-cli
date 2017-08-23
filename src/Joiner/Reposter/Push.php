@@ -64,8 +64,10 @@ class Push
     /**
      * @param string $url
      * @param Instaxer $instaxer
+     * @param User $user
      * @return ConfigureMediaResponse
-     * @throws \Exception
+     * @throws \RuntimeException
+     * @throws \Symfony\Component\Filesystem\Exception\IOException
      */
     public static function repostPhotoByURL(string $url, Instaxer $instaxer, User $user): ConfigureMediaResponse
     {
