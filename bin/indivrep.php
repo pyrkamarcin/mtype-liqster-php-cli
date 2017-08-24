@@ -15,17 +15,18 @@ $user = new User();
 $user->setName($argv[1]);
 
 $images = new Profile($maxer);
-$data = $images->get($user)[0];
+$datam = $images->get($user);
 
-dump(count($data));
+foreach ($datam as $data) {
 
-try {
-    foreach ($data as $singleData) {
-        $response = Push::repostPhotoByURL($singleData->getUrl(), $instaxer, $user);
+    try {
+        foreach ($data as $singleData) {
+            $response = Push::repostPhotoByURL($singleData->getUrl(), $instaxer, $user);
 
-        print 'ok' . "\r\n";
-        Sleep::run(10, true);
+            print ' [ok] ';
+            Sleep::run(10, true);
+        }
+    } catch (\Exception $exception) {
+        print 'error: ' . $exception->getMessage() . "\r\n";
     }
-} catch (\Exception $exception) {
-    print 'error: ' . $exception->getMessage() . "\r\n";
 }
