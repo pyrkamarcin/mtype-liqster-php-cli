@@ -33,6 +33,6 @@ class Profile
      */
     public function get(User $user): array
     {
-        return $this->maxer->getUserPhotos($user, 10);
+        return $this->maxer->getUserMultiPhotos($user, 10);
     }
 }

@@ -7,3 +7,4 @@
 /instaxer/profiles/*.dat
 /config/config.php
 /var/storage/*.tmp
+/composer.phar

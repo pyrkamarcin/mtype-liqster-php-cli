@@ -15,12 +15,12 @@ $user = new User();
 $user->setName($argv[1]);
 
 $images = new Profile($maxer);
-$data = $images->get($user);
+$data = $images->get($user)[0];
+
+dump(count($data));
 
 try {
     foreach ($data as $singleData) {
-
-        dump($singleData);
         $response = Push::repostPhotoByURL($singleData->getUrl(), $instaxer, $user);
 
         print 'ok' . "\r\n";
