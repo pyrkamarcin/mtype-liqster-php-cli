@@ -34,12 +34,12 @@ try {
 
                 if ($comment->getUser()->getUsername() !== $argv[2]) {
 
-                    $items = array_slice($items->getItems(), 0, 5);
+                    $items = array_slice($items->getItems(), 0, 6);
 
                     foreach ($items as $hashTagFeedItem) {
 
                         if ($hashTagFeedItem->isHasLiked()) {
-                            throw new \RuntimeException('is acctual liked');
+                            throw new \RuntimeException(' [is acctual liked]');
                         }
 
                         $id = $hashTagFeedItem->getId();
@@ -77,6 +77,8 @@ try {
                         if ($user->getFollowingCount() > 100) {
                             $instaxer->instagram->likeMedia($hashTagFeedItem->getId());
                             echo sprintf(' [liked] ');
+                        } else {
+                            echo sprintf(' [low power - skip] ');
                         }
 
                         Sleep::run(10, true);
