@@ -43,6 +43,9 @@ try {
                 echo $user->getUsername() . ' ' . $userMostImportantStat . ' [ out ] ' . "\r\n";
 
                 Sleep::run(20, true);
+
+                dump($instaxer->instagram->showFriendship($user));
+                Sleep::run(5, true);
             } else {
                 echo $c . ": \t";
                 echo $user->getUsername() . ' ' . $userMostImportantStat . ' [ skip - too preaty ! ] ' . "\r\n";
