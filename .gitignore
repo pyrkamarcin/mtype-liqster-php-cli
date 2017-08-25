@@ -1,10 +1,6 @@
 .idea
-*.iml
+/composer.phar
 /composer.lock
 /vendor/
-/var/cache/instaxer/profiles/*.dat
-/tests/coverage/
-/instaxer/profiles/*.dat
 /config/config.php
 /var/storage/*.tmp
-/composer.phar
