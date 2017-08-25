@@ -26,16 +26,16 @@ class Push
     public static function downloadPhotoByURLToDropbox(string $url)
     {
 
-        $dirPath = __DIR__ . '/../../../vendor/pyrkamarcin/instaxer/app/storage/';
+        $dirPath = __DIR__ . '/../../../var/storage/';
         $filesystem = new Filesystem();
         $filesystem->mkdir($dirPath);
-        $filesystem->touch(__DIR__ . '/../../../vendor/pyrkamarcin/instaxer/app/storage/storage.tmp');
+        $filesystem->touch(__DIR__ . '/../../../var/storage/storage.tmp');
 
         AbstractOperation::setDefaultAsync(false);
         AbstractOperation::setDefaultToken('MTn5Od3DgSMAAAAAAAAaD2ucStBCuS6I3iuy1dNwqvIoe3HcXnu8nJGXBIuDmmi5');
 
         if (self::checkUnique($url)) {
-            file_put_contents(__DIR__ . '/../../../vendor/pyrkamarcin/instaxer/app/storage/storage_dropbox.tmp', $url . ';', FILE_APPEND);
+            file_put_contents(__DIR__ . '/../../../var/storage/storage_dropbox.tmp', $url . ';', FILE_APPEND);
 
             $downloader = new Downloader();
             $downloader->drain('http://' . $url);
@@ -71,16 +71,16 @@ class Push
      */
     public static function repostPhotoByURL(string $url, Instaxer $instaxer, User $user): ConfigureMediaResponse
     {
-        $dirPath = __DIR__ . '/../../../vendor/pyrkamarcin/instaxer/app/storage/';
+        $dirPath = __DIR__ . '/../../../var/storage/';
         $filesystem = new Filesystem();
         $filesystem->mkdir($dirPath);
-        $filesystem->touch(__DIR__ . '/../../../vendor/pyrkamarcin/instaxer/app/storage/storage.tmp');
+        $filesystem->touch(__DIR__ . '/../../../var/storage/storage.tmp');
 
         AbstractOperation::setDefaultAsync(false);
         AbstractOperation::setDefaultToken('MTn5Od3DgSMAAAAAAAAaD2ucStBCuS6I3iuy1dNwqvIoe3HcXnu8nJGXBIuDmmi5');
 
         if (self::checkUnique($url)) {
-            file_put_contents(__DIR__ . '/../../../vendor/pyrkamarcin/instaxer/app/storage/storage.tmp', $url . ';', FILE_APPEND);
+            file_put_contents(__DIR__ . '/../../../var/storage/storage.tmp', $url . ';', FILE_APPEND);
 
 
             $downloader = new Downloader();
@@ -119,16 +119,16 @@ class Push
      */
     public static function repostPhotoByURLMulti(string $url, Instaxer $instaxer): ConfigureMediaResponse
     {
-        $dirPath = __DIR__ . '/../../../vendor/pyrkamarcin/instaxer/app/storage/';
+        $dirPath = __DIR__ . '/../../../var/storage/';
         $filesystem = new Filesystem();
         $filesystem->mkdir($dirPath);
-        $filesystem->touch(__DIR__ . '/../../../vendor/pyrkamarcin/instaxer/app/storage/storage.tmp');
+        $filesystem->touch(__DIR__ . '/../../../var/storage/storage.tmp');
 
         AbstractOperation::setDefaultAsync(false);
         AbstractOperation::setDefaultToken('MTn5Od3DgSMAAAAAAAAaD2ucStBCuS6I3iuy1dNwqvIoe3HcXnu8nJGXBIuDmmi5');
 
         if (self::checkUnique($url)) {
-            file_put_contents(__DIR__ . '/../../../vendor/pyrkamarcin/instaxer/app/storage/storage.tmp', $url . ';', FILE_APPEND);
+            file_put_contents(__DIR__ . '/../../../var/storage/storage.tmp', $url . ';', FILE_APPEND);
 
 
             $downloader = new Downloader();
@@ -162,7 +162,7 @@ class Push
      */
     private static function checkUnique(string $url): bool
     {
-        $repository = file_get_contents(__DIR__ . '/../../../vendor/pyrkamarcin/instaxer/app/storage/storage.tmp');
+        $repository = file_get_contents(__DIR__ . '/../../../var/storage/storage.tmp');
         $haystack = explode(';', $repository);
         return !in_array($url, $haystack, true);
     }

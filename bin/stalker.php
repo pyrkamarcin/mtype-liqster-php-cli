@@ -74,7 +74,7 @@ try {
 
                         echo sprintf('photo: %s/%s ', $likeCount, $commentCount);
 
-                        if ($user->setFollowerCount() > 100) {
+                        if ($user->getFollowerCount() > 100) {
                             $instaxer->instagram->likeMedia($hashTagFeedItem->getId());
                             echo sprintf(' [liked] ');
                         } else {

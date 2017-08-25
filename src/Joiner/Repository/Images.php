@@ -31,6 +31,6 @@ class Images
      */
     public function get(): array
     {
-        return $this->maxer->getLastPhotos(10);
+        return $this->maxer->getRankedPhotos(25);
     }
 }

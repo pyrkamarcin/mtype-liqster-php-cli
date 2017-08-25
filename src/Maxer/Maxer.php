@@ -9,6 +9,7 @@ use Maxer\API\Request\Base\PageRequest;
 use Maxer\API\Request\LastPhotosRequest;
 use Maxer\API\Request\LoginRequest;
 use Maxer\API\Request\ObservedPhotosRequest;
+use Maxer\API\Request\RankedPhotosRequest;
 use Maxer\API\Request\TokenRequest;
 use Maxer\API\Request\VoutePhotoRequest;
 use Maxer\API\Response\PhotosResponse;
@@ -48,6 +49,18 @@ class Maxer
     public function getLastPhotos(int $limit = 45): array
     {
         $request = new LastPhotosRequest();
+        return PhotosResponse::toObjects(PhotosResponse::parse($request->execute(), $limit));
+    }
+
+    /**
+     * @param int $limit
+     * @return array
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     */
+    public function getRankedPhotos(int $limit = 45): array
+    {
+        $request = new RankedPhotosRequest();
         return PhotosResponse::toObjects(PhotosResponse::parse($request->execute(), $limit));
     }
 

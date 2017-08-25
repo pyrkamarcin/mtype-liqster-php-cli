@@ -15,7 +15,10 @@ try {
 
     $userFeed = $instaxer->instagram->getUserFeed($account);
 
-    foreach (array_reverse($userFeed->getItems()) as $item) {
+    $array = $userFeed->getItems();
+    array_reverse($array);
+
+    foreach ($array as $item) {
 
         if ($item->getLikeCount() <= 100) {
             $instaxer->instagram->deleteMedia($item, $item->getMediaType());
