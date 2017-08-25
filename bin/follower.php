@@ -1,8 +1,6 @@
 <?php
 
 use Instaxer\Domain\Model\ItemRepository;
-use Instaxer\Request\Followers;
-use Instaxer\Request\Following;
 use Joiner\Connections\Factory;
 use Joiner\Sleep;
 
@@ -16,11 +14,19 @@ try {
 
     $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
 
-    $following = new Following($instaxer);
-    $following = $following->getFollowing($account);
+//    $following = new Following($instaxer);
+//    $following = $following->getFollowing($account);
 
-    $followers = new Followers($instaxer);
-    $followers = $followers->getFollowers($account);
+//    $followers = new Followers($instaxer);
+//    $followers = $followers->getFollowers($account);
+
+    $following = \Joiner\Fall\Factory::getFollowing($instaxer, $account);
+    $followers = \Joiner\Fall\Factory::getFollowers($instaxer, $account);
+
+    dump(count($following));
+    dump(count($followers));
+
+    die();
 
     $itemRepository = new ItemRepository($array[$argv[1]]['tags']);
 

@@ -34,7 +34,7 @@ try {
 
                 if ($comment->getUser()->getUsername() !== $argv[2]) {
 
-                    $items = array_slice($items->getItems(), 0, 6);
+                    $items = array_slice($items->getItems(), 0, 3);
 
                     foreach ($items as $hashTagFeedItem) {
 
