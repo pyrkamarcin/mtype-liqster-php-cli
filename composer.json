@@ -8,7 +8,8 @@
     "psr-4": {
       "Joiner\\": "src/Joiner",
       "Maxer\\": "src/Maxer",
-      "Instaxer\\": "src/Instaxer"
+      "Instaxer\\": "src/Instaxer",
+      "Instagram\\": "src/Instagram"
     }
   },
   "autoload-dev": {
@@ -30,7 +31,9 @@
     "doctrine/cache": "^1.0",
     "psr/cache": "^1.0.1",
     "phpspec/php-diff": "^1.1.0",
-    "liamcottle/instagram-sdk-php": "^1.0.4",
+    "php-curl-class/php-curl-class": "^4.11",
+    "netresearch/jsonmapper": "^1.3.0",
+    "ramsey/uuid": "^3.6.0",
     "php-ai/php-ml": "^0.4.1"
   },
   "require-dev": {
