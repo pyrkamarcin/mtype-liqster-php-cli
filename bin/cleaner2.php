@@ -13,8 +13,13 @@ try {
 
     $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
 
-    $followers = new \Instaxer\Request\Followers($instaxer);
-    $followers = $followers->getFollowers($account);
+    try {
+        $following = \Joiner\Fall\Factory::getFollowing($instaxer, $account);
+        $followers = \Joiner\Fall\Factory::getFollowers($instaxer, $account);
+    } catch (Exception $e) {
+        echo $e->getMessage() . "\n";
+        exit(255);
+    }
 
     $whiteList = new \Instaxer\Domain\WhiteList(__DIR__ . '/../config/whitelist.dat');
 

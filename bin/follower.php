@@ -14,19 +14,13 @@ try {
 
     $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
 
-//    $following = new Following($instaxer);
-//    $following = $following->getFollowing($account);
-
-//    $followers = new Followers($instaxer);
-//    $followers = $followers->getFollowers($account);
-
-    $following = \Joiner\Fall\Factory::getFollowing($instaxer, $account);
-    $followers = \Joiner\Fall\Factory::getFollowers($instaxer, $account);
-
-    dump(count($following));
-    dump(count($followers));
-
-    die();
+    try {
+        $following = \Joiner\Fall\Factory::getFollowing($instaxer, $account);
+        $followers = \Joiner\Fall\Factory::getFollowers($instaxer, $account);
+    } catch (Exception $e) {
+        echo $e->getMessage() . "\n";
+        exit(255);
+    }
 
     $itemRepository = new ItemRepository($array[$argv[1]]['tags']);
 
@@ -55,8 +49,6 @@ try {
                         echo $user->getUsername() . ' do not following me' . "\r\n";
                         $response = $instaxer->instagram->followUser($user);
 
-                        dump($response);
-
                         file_put_contents(__DIR__ . '/../var/storage/' . $array[$argv[1]]['username'] . '.tmp', $user->getUsername() . ';', FILE_APPEND);
 
                         Sleep::run(20, true);
@@ -67,4 +59,6 @@ try {
     }
 } catch (Exception $e) {
     echo $e->getMessage() . "\n";
+    exit(255);
 }
+exit(0);

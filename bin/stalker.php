@@ -1,7 +1,5 @@
 <?php
 
-use Instaxer\Request\Followers;
-use Instaxer\Request\Following;
 use Joiner\Connections\Factory;
 use Joiner\Sleep;
 
@@ -15,11 +13,13 @@ try {
 
     $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
 
-    $following = new Following($instaxer);
-    $following = $following->getFollowing($account);
-
-    $followers = new Followers($instaxer);
-    $followers = $followers->getFollowers($account);
+    try {
+        $following = \Joiner\Fall\Factory::getFollowing($instaxer, $account);
+        $followers = \Joiner\Fall\Factory::getFollowers($instaxer, $account);
+    } catch (Exception $e) {
+        echo $e->getMessage() . "\n";
+        exit(255);
+    }
 
     $user = $instaxer->instagram->getUserByUsername($argv[2]);
     $userFeed = $instaxer->instagram->getUserFeed($user);

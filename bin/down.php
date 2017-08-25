@@ -4,8 +4,6 @@ require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../config/config.php';
 
 use Instaxer\Downloader;
-use Instaxer\Request\Followers;
-use Instaxer\Request\Following;
 use Joiner\Connections\Factory;
 use Joiner\Sleep;
 
@@ -16,11 +14,13 @@ try {
 
     $profile = $instaxer->instagram->getCurrentUserAccount()->getUser();
 
-    $following = new Following($instaxer);
-    $followers = new Followers($instaxer);
-
-    $following = $following->getFollowing($profile);
-    $followers = $followers->getFollowers($profile);
+    try {
+        $following = \Joiner\Fall\Factory::getFollowing($instaxer, $account);
+        $followers = \Joiner\Fall\Factory::getFollowers($instaxer, $account);
+    } catch (Exception $e) {
+        echo $e->getMessage() . "\n";
+        exit(255);
+    }
 
     foreach ($following as $account) {
 

@@ -8,13 +8,23 @@ use Instaxer\Request\Followers;
 use Instaxer\Request\Following;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
+/**
+ * Class Factory
+ * @package Joiner\Fall
+ */
 class Factory
 {
+    /**
+     * @param Instaxer $instaxer
+     * @param User $account
+     * @return mixed
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
     public static function getFollowers(Instaxer $instaxer, User $account)
     {
         $cache = new FilesystemAdapter();
 
-        $followersCache = $cache->getItem('instagram.followers');
+        $followersCache = $cache->getItem('instagram.followers.' . $account->getUsername());
         $followersCache->expiresAfter(60);
 
         if (!$followersCache->isHit()) {
@@ -28,11 +38,17 @@ class Factory
         return $followersCache->get();
     }
 
+    /**
+     * @param Instaxer $instaxer
+     * @param User $account
+     * @return mixed
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
     public static function getFollowing(Instaxer $instaxer, User $account)
     {
         $cache = new FilesystemAdapter();
 
-        $followingCache = $cache->getItem('instagram.following');
+        $followingCache = $cache->getItem('instagram.following.' . $account->getUsername());
         $followingCache->expiresAfter(60);
 
         if (!$followingCache->isHit()) {

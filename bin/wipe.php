@@ -22,7 +22,7 @@ try {
             echo $item->getLikeCount() . ' ' . $item->getCommentCount();
             echo "\r\n";
 
-            Sleep::run(20, true);
+            Sleep::run(5, true);
         } else {
             echo 'skip: ' . $item->getLikeCount() . ' ' . $item->getCommentCount();
             echo "\r\n";

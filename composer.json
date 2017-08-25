@@ -6,7 +6,9 @@
   "license": "proprietary",
   "autoload": {
     "psr-4": {
-      "Joiner\\": "src/Joiner"
+      "Joiner\\": "src/Joiner",
+      "Maxer\\": "src/Maxer",
+      "Instaxer\\": "src/Instaxer"
     }
   },
   "autoload-dev": {
@@ -21,24 +23,18 @@
     "php": ">=7.0",
     "ext-curl": "*",
     "symfony/symfony": "^3.3.6",
-    "pyrkamarcin/maxmodels-sdk-php": "dev-master",
-    "pyrkamarcin/instaxer": "dev-master",
     "intervention/image": "^2.4",
     "alorel/dropbox-v2-php": "^0.4.2",
-    "symfony/cache": "^3.3"
+    "guzzlehttp/guzzle": "^6.3.0",
+    "kevinrob/guzzle-cache-middleware": "^2.0.2",
+    "doctrine/cache": "^1.0",
+    "psr/cache": "^1.0.1",
+    "phpspec/php-diff": "^1.1.0",
+    "liamcottle/instagram-sdk-php": "^1.0.4",
+    "php-ai/php-ml": "^0.4.1"
   },
   "require-dev": {
     "phpunit/phpunit": "^6.1",
     "codacy/coverage": "^1.1.0"
-  },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://gitlab.com/pyrkamarcin/maxmodels-sdk-php"
-    },
-    {
-      "type": "vcs",
-      "url": "https://gitlab.com/pyrkamarcin/instaxer"
-    }
-  ]
+  }
 }
