@@ -76,9 +76,6 @@ class Push
         $filesystem->mkdir($dirPath);
         $filesystem->touch(__DIR__ . '/../../../var/storage/storage.tmp');
 
-        AbstractOperation::setDefaultAsync(false);
-        AbstractOperation::setDefaultToken('MTn5Od3DgSMAAAAAAAAaD2ucStBCuS6I3iuy1dNwqvIoe3HcXnu8nJGXBIuDmmi5');
-
         if (self::checkUnique($url)) {
             file_put_contents(__DIR__ . '/../../../var/storage/storage.tmp', $url . ';', FILE_APPEND);
 

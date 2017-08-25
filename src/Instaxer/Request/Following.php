@@ -24,6 +24,7 @@ class Following
             $fall = $this->instaxer->instagram->getUserFollowing($user, $lastId);
             $lastId = $fall->getNextMaxId();
             $array = array_merge($array, $fall->getFollowers());
+            echo '.';
         }
 
         return $array;

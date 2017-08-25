@@ -22,7 +22,14 @@ try {
     }
 
     $user = $instaxer->instagram->getUserByUsername($argv[2]);
-    $userFeed = $instaxer->instagram->getUserFeed($user);
+
+    try {
+        $userFeed = $instaxer->instagram->getUserFeed($user);
+        echo 'Feed download. Elements: ' . $userFeed->getNumResults() . "\r\n";
+    } catch (Exception $e) {
+        echo $e->getMessage() . "\n";
+        exit(255);
+    }
 
     foreach ($userFeed->getItems() as $feedItem) {
         $comments = $feedItem->getComments();
@@ -34,40 +41,39 @@ try {
 
                 if ($comment->getUser()->getUsername() !== $argv[2]) {
 
-                    $items = array_slice($items->getItems(), 0, 3);
+                    $items = array_slice($items->getItems(), 0, random_int(3, 9));
+
+                    echo sprintf('User: %s; ', $comment->getUser()->getUsername());
+                    echo sprintf('followers: %s, ' . "\r\n", $user->getFollowerCount());
+
+                    $file = file_get_contents(__DIR__ . '/../var/storage/' . $array[$argv[1]]['username'] . '.tmp');
+                    $haystack = explode(';', $file);
+
+                    $userFollow = false;
+
+                    foreach ($following as $followingUser) {
+                        if ($followingUser->getUsername() === $user->getUsername()) {
+                            $userFollow = true;
+                        }
+                    }
+                    if (!in_array($user->getUsername(), $haystack, true)) {
+                        if ($userFollow !== true) {
+                            echo $user->getUsername() . ' [do not following me] ' . "\r\n";
+                            $response = $instaxer->instagram->followUser($user);
+
+                            file_put_contents(__DIR__ . '/../var/storage/' . $array[$argv[1]]['username'] . '.tmp', $user->getUsername() . ';', FILE_APPEND);
+                        }
+                    }
 
                     foreach ($items as $hashTagFeedItem) {
 
                         if ($hashTagFeedItem->isHasLiked()) {
-                            throw new \RuntimeException(' [is acctual liked]');
+                            throw new \RuntimeException('Feed is acctual liked' . "\r\n");
                         }
 
                         $id = $hashTagFeedItem->getId();
-                        $user = $instaxer->instagram->getUserInfo($hashTagFeedItem->getUser())->getUser();
-                        $followRatio = $user->getFollowerCount() / $user->getFollowingCount();
 
-                        $userFollow = false;
-
-                        foreach ($following as $followingUser) {
-                            if ($followingUser->getUsername() === $user->getUsername()) {
-                                $userFollow = true;
-                            }
-                        }
-
-                        $file = file_get_contents(__DIR__ . '/../var/storage/' . $array[$argv[1]]['username'] . '.tmp');
-                        $haystack = explode(';', $file);
-                        if (!in_array($user->getUsername(), $haystack, true)) {
-                            if ($userFollow !== true) {
-                                echo $user->getUsername() . ' [do not following me] ' . "\r\n";
-                                $response = $instaxer->instagram->followUser($user);
-
-                                file_put_contents(__DIR__ . '/../var/storage/' . $array[$argv[1]]['username'] . '.tmp', $user->getUsername() . ';', FILE_APPEND);
-                            }
-                        }
-
-                        echo sprintf('User: %s; ', $user->getUsername());
-                        echo sprintf('id: %s,  ', $id);
-                        echo sprintf('followers: %s,  ratio: %s, ', $user->getFollowerCount(), round($followRatio, 1));
+                        echo sprintf('Feed id: %s,  ', $id);
 
                         $likeCount = $hashTagFeedItem->getLikeCount();
                         $commentCount = $hashTagFeedItem->getCommentCount();
@@ -89,7 +95,7 @@ try {
                 }
             } catch (Exception $e) {
                 echo $e->getMessage() . "\n";
-                Sleep::run(60, true);
+                Sleep::run(5, true);
             }
         }
     }
