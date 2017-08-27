@@ -67,24 +67,28 @@ try {
 
                     foreach ($items as $hashTagFeedItem) {
 
-                        if ($hashTagFeedItem->isHasLiked()) {
-                            throw new \RuntimeException('Feed is acctual liked' . "\r\n");
-                        }
+                        try {
+                            if ($hashTagFeedItem->isHasLiked()) {
+                                throw new \RuntimeException('Feed is acctual liked' . "\r\n");
+                            }
 
-                        $id = $hashTagFeedItem->getId();
+                            $id = $hashTagFeedItem->getId();
 
-                        echo sprintf('Feed id: %s,  ', $id);
+                            echo sprintf('Feed id: %s,  ', $id);
 
-                        $likeCount = $hashTagFeedItem->getLikeCount();
-                        $commentCount = $hashTagFeedItem->getCommentCount();
+                            $likeCount = $hashTagFeedItem->getLikeCount();
+                            $commentCount = $hashTagFeedItem->getCommentCount();
 
-                        echo sprintf('photo: %s/%s ', $likeCount, $commentCount);
+                            echo sprintf('photo: %s/%s ', $likeCount, $commentCount);
 
-                        if ($user->getFollowerCount() > 100) {
-                            $instaxer->instagram->likeMedia($hashTagFeedItem->getId());
-                            echo sprintf(' [liked] ');
-                        } else {
-                            echo sprintf(' [low power - skip] ');
+                            if ($user->getFollowerCount() > 100) {
+                                $instaxer->instagram->likeMedia($hashTagFeedItem->getId());
+                                echo sprintf(' [liked] ');
+                            } else {
+                                echo sprintf(' [low power - skip] ');
+                            }
+                        } catch (Exception $e) {
+                            echo $e->getMessage() . "\n";
                         }
 
                         Sleep::run(10, true);

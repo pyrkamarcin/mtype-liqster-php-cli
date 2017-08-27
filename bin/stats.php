@@ -30,7 +30,6 @@ echo '' . "\r\n";
 try {
     $response = json_decode($firebase->get('/' . $user->getUsername() . '/followers/'));
 
-
     $userStored = [];
 
     foreach ($response as $item) {
