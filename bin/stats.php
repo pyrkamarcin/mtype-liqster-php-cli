@@ -60,3 +60,51 @@ try {
     echo $e->getMessage() . "\n";
     exit(255);
 }
+
+
+try {
+    $followings = \Joiner\Fall\Factory::getFollowing($instaxer, $user);
+} catch (Exception $e) {
+    echo $e->getMessage() . "\n";
+    exit(255);
+}
+
+echo '' . "\r\n";
+echo '+------------------------------------------------------------------------------+' . "\r\n";
+echo '|                                                                              |' . "\r\n";
+echo '|                           Following\'s analize                                |' . "\r\n";
+echo '|                                                                              |' . "\r\n";
+echo '+------------------------------------------------------------------------------+' . "\r\n";
+echo '' . "\r\n";
+
+try {
+    $response = json_decode($firebase->get('/' . $user->getUsername() . '/following/'));
+
+    $userStored = [];
+
+    foreach ($response as $item) {
+
+        $itemArray = (array)$item;
+        $userStored[] = $itemArray['username'];
+    }
+
+    echo 'Stored: ' . count($userStored) . "\r\n";
+
+    foreach ($followings as $following) {
+
+        if (!in_array($following->getUsername(), $userStored)) {
+            $firebase->set(
+                '/' . $user->getUsername() . '/following/' . $following->getUsername(),
+                $instaxer->instagram->getUserInfo($following)->getUser()
+            );
+            echo $following->getUsername() . ' [saved] ';
+
+            Sleep::run(10, true);
+        } else {
+            echo $following->getUsername() . ' [acctualy stored] ' . "\r\n";
+        }
+    }
+} catch (Exception $e) {
+    echo $e->getMessage() . "\n";
+    exit(255);
+}
