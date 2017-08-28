@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * reposter.php
+ *
+ * php bin/reposter.php 2 polish.body
+ *
+ * Reposts instagram feeds into instagram acc.
+ *
+ */
+
 use Joiner\Connections\Factory;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -34,7 +43,7 @@ try {
 
             $response = $requestPublishPhoto
                 ->pull(
-                    __DIR__ . '/../app/storage/test.jpg', ''
+                    __DIR__ . '/../var/storage/test.jpg', ''
 
                 );
 
