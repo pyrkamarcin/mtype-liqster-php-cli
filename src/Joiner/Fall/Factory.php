@@ -27,7 +27,7 @@ class Factory
         $cache = new FilesystemAdapter();
 
         $followersCache = $cache->getItem('instagram.followers.' . $account->getUsername());
-        $followersCache->expiresAfter(3600);
+        $followersCache->expiresAfter(36000);
 
         if (!$followersCache->isHit()) {
 
@@ -58,7 +58,7 @@ class Factory
         $cache = new FilesystemAdapter();
 
         $followingCache = $cache->getItem('instagram.following.' . $account->getUsername());
-        $followingCache->expiresAfter(3600);
+        $followingCache->expiresAfter(36000);
 
         if (!$followingCache->isHit()) {
 

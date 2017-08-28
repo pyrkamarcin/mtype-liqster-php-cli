@@ -2,6 +2,8 @@
 
 namespace Instaxer\Request;
 
+use Joiner\Sleep;
+
 class Followers
 {
     private $instaxer;
@@ -25,6 +27,7 @@ class Followers
             $lastId = $fall->getNextMaxId();
             $array = array_merge($array, $fall->getFollowers());
             echo '.';
+            Sleep::run(4, false);
         }
 
         return $array;
