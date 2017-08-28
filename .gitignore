@@ -4,3 +4,4 @@
 /vendor/
 /config/config.php
 /var/storage/*.tmp
+/bash.exe.stackdump
