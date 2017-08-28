@@ -22,9 +22,11 @@ try {
 }
 
 echo '' . "\r\n";
-echo '+-----------------------------------------------------------------------------------------------------+' . "\r\n";
-echo '|                                  Followers\'s analize                                               |' . "\r\n";
-echo '+-----------------------------------------------------------------------------------------------------+' . "\r\n";
+echo '+------------------------------------------------------------------------------+' . "\r\n";
+echo '|                                                                              |' . "\r\n";
+echo '|                           Followers\'s analize                               |' . "\r\n";
+echo '|                                                                              |' . "\r\n";
+echo '+------------------------------------------------------------------------------+' . "\r\n";
 echo '' . "\r\n";
 
 try {
@@ -35,14 +37,12 @@ try {
     foreach ($response as $item) {
 
         $itemArray = (array)$item;
-        $itemElement = (array)$itemArray['user'];
-
-        $userStored[] = $itemElement['username'];
+        $userStored[] = $itemArray['username'];
     }
 
     echo 'Stored: ' . count($userStored) . "\r\n";
 
-    foreach ($followers as $key => $follower) {
+    foreach ($followers as $follower) {
 
         if (!in_array($follower->getUsername(), $userStored)) {
             $firebase->set(
