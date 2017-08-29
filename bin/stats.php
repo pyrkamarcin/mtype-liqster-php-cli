@@ -46,16 +46,18 @@ try {
 
     foreach ($followers as $follower) {
 
-        if (!in_array($follower->getUsername(), $userStored)) {
+        $userEncode = urlencode($follower->getUsername());
+
+        if (!in_array($userEncode, $userStored)) {
             $firebase->set(
-                '/' . $user->getUsername() . '/followers/' . $follower->getUsername(),
+                '/' . $user->getUsername() . '/followers/' . $userEncode,
                 $instaxer->instagram->getUserInfo($follower)->getUser()
             );
-            echo $follower->getUsername() . ' [saved] ';
+            echo $userEncode . ' [saved] ';
 
             Sleep::run(10, true);
         } else {
-//            echo $follower->getUsername() . ' [acctualy stored] ' . "\r\n";
+            echo $follower->getUsername() . ' [acctualy stored] ' . "\r\n";
         }
     }
 } catch (Exception $e) {
@@ -94,6 +96,7 @@ try {
 
     foreach ($followings as $following) {
 
+
         if (!in_array($following->getUsername(), $userStored)) {
             $firebase->set(
                 '/' . $user->getUsername() . '/following/' . $following->getUsername(),
@@ -103,7 +106,7 @@ try {
 
             Sleep::run(10, true);
         } else {
-//            echo $following->getUsername() . ' [acctualy stored] ' . "\r\n";
+            echo $following->getUsername() . ' [acctualy stored] ' . "\r\n";
         }
     }
 } catch (Exception $e) {
