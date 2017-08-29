@@ -25,24 +25,25 @@ echo '' . "\r\n";
 
 $followers = json_decode($firebase->get('/' . $user->getUsername() . '/following/'));
 
-dump((int)$userStats->getUser()->getFollowerCount());
-
 $count = 0;
 foreach ($followers as $follower) {
     $count++;
 }
 
-dump($count);
-dump(round($count / (int)$userStats->getUser()->getFollowerCount(), 2));
-
 $value = 0;
 foreach ($followers as $follower) {
     $value += $follower->follower_count;
 }
-dump($value / $count);
 
 $ratio = 0;
 foreach ($followers as $follower) {
-    $ratio = $follower->follower_count / $follower->following_count;
-    dump($ratio);
+    if ($follower->following_count > 0) {
+        $ratio = $follower->follower_count / $follower->following_count;
+        if ($ratio < 0.5) {
+            echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!';
+        }
+        dump(round($ratio, 2));
+    } else {
+        echo "skip\r\n";
+    }
 }
