@@ -10,7 +10,9 @@ $firebase = \Joiner\Firebase::Factory();
 
 $username = $array[$argv[1]]['username'];
 $password = $array[$argv[1]]['password'];
+
 $instaxer = Factory::createInstaxer($username, $password);
+
 $user = $instaxer->instagram->getUserByUsername($argv[2]);
 $userStats = $instaxer->instagram->getUserInfo($user);
 
@@ -53,7 +55,7 @@ try {
 
             Sleep::run(10, true);
         } else {
-            echo $follower->getUsername() . ' [acctualy stored] ' . "\r\n";
+//            echo $follower->getUsername() . ' [acctualy stored] ' . "\r\n";
         }
     }
 } catch (Exception $e) {
@@ -101,7 +103,7 @@ try {
 
             Sleep::run(10, true);
         } else {
-            echo $following->getUsername() . ' [acctualy stored] ' . "\r\n";
+//            echo $following->getUsername() . ' [acctualy stored] ' . "\r\n";
         }
     }
 } catch (Exception $e) {

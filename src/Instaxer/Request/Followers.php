@@ -27,7 +27,7 @@ class Followers
             $lastId = $fall->getNextMaxId();
             $array = array_merge($array, $fall->getFollowers());
             echo '.';
-            Sleep::run(4, false);
+            Sleep::run(8, false);
         }
 
         return $array;
