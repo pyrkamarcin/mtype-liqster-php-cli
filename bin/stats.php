@@ -46,14 +46,14 @@ try {
 
     foreach ($followers as $follower) {
 
-        $userEncode = urlencode($follower->getUsername());
+        $userEncode = md5($follower->getUsername());
 
         if (!in_array($userEncode, $userStored)) {
             $firebase->set(
                 '/' . $user->getUsername() . '/followers/' . $userEncode,
                 $instaxer->instagram->getUserInfo($follower)->getUser()
             );
-            echo $userEncode . ' [saved] ';
+            echo $follower->getUsername() . ' [saved] ';
 
             Sleep::run(10, true);
         } else {
@@ -96,10 +96,12 @@ try {
 
     foreach ($followings as $following) {
 
+        $userEncode = md5($following->getUsername());
 
-        if (!in_array($following->getUsername(), $userStored)) {
+
+        if (!in_array($userEncode, $userStored)) {
             $firebase->set(
-                '/' . $user->getUsername() . '/following/' . $following->getUsername(),
+                '/' . $user->getUsername() . '/following/' . $userEncode,
                 $instaxer->instagram->getUserInfo($following)->getUser()
             );
             echo $following->getUsername() . ' [saved] ';
