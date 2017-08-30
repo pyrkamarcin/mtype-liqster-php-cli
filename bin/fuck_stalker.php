@@ -43,7 +43,7 @@ try {
 
                     if ($comment->getUser()->getUsername() !== $argv[2]) {
 
-                        $items = array_slice($items->getItems(), 0, random_int(3, 9));
+                        $items = array_slice($items->getItems(), 0, random_int(3, 12));
 
                         echo sprintf('User: %s; ', $comment->getUser()->getUsername());
                         echo sprintf('followers: %s, ' . "\r\n", $user->getFollowerCount());
@@ -92,12 +92,8 @@ try {
                             } catch (Exception $e) {
                                 echo $e->getMessage() . "\n";
                             }
-
                             Sleep::run(10, true);
                         }
-
-                        echo "\n";
-                        Sleep::run(10, true);
                     }
                 } catch (Exception $e) {
                     echo $e->getMessage() . "\n";
