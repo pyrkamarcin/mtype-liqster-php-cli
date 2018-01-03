@@ -28,7 +28,7 @@ class Sleep
         }
 
         if ($debug === true) {
-            echo "\r\n";
+//            echo "\r\n";
 
         }
     }
