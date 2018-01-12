@@ -16,20 +16,11 @@ class Sleep
     {
         $value = random_int(1, $range);
 
-        if ($debug === true) {
-            // echo 'Sleeping: ' . $value . ' s: ';
-        }
-
         for ($a = 1; $a <= $value; $a++) {
-            if ($debug === true) {
-                // echo '.';
-            }
             sleep(1);
         }
 
         if ($debug === true) {
-//            // echo "\r\n";
-
         }
     }
 }
