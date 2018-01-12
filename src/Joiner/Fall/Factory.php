@@ -22,7 +22,7 @@ class Factory
      */
     public static function getFollowers(Instaxer $instaxer, User $account)
     {
-        echo 'Get Followers: get cache: ';
+        // echo 'Get Followers: get cache: ';
 
         $cache = new FilesystemAdapter();
 
@@ -31,7 +31,7 @@ class Factory
 
         if (!$followersCache->isHit()) {
 
-            echo ' empty! Create request: ';
+            // echo ' empty! Create request: ';
 
             $followersObj = new Followers($instaxer);
             $followers = $followersObj->getFollowers($account);
@@ -40,7 +40,7 @@ class Factory
             $cache->save($followersCache);
         }
 
-        echo ' ok! [loaded]' . "\r\n";
+        // echo ' ok! [loaded]' . "\r\n";
 
         return $followersCache->get();
     }
@@ -53,7 +53,7 @@ class Factory
      */
     public static function getFollowing(Instaxer $instaxer, User $account)
     {
-        echo 'Get Following: check cache: ';
+        // echo 'Get Following: check cache: ';
 
         $cache = new FilesystemAdapter();
 
@@ -62,7 +62,7 @@ class Factory
 
         if (!$followingCache->isHit()) {
 
-            echo ' empty! Create request: ';
+            // echo ' empty! Create request: ';
 
             $followingObj = new Following($instaxer);
             $following = $followingObj->getFollowing($account);
@@ -71,7 +71,7 @@ class Factory
             $cache->save($followingCache);
         }
 
-        echo ' ok! [loaded]' . "\r\n";
+        // echo ' ok! [loaded]' . "\r\n";
 
         return $followingCache->get();
     }
