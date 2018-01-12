@@ -23,7 +23,7 @@
   "require": {
     "php": ">=7.1",
     "ext-curl": "*",
-    "symfony/symfony": "^3.3.6",
+    "symfony/symfony": "^4.0.0",
     "intervention/image": "^2.4",
     "alorel/dropbox-v2-php": "^0.4.2",
     "guzzlehttp/guzzle": "^6.3.0",

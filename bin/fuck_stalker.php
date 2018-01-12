@@ -104,12 +104,12 @@ try {
                         foreach ($items as $nextLevelItem) {
                             $nextLevelUser = $nextLevelItem->getUser();
                             $heavy_feed = $instaxer->instagram->getUserFeed($nextLevelUser);
-                            $heavyFuckingFollowers = \Joiner\Fall\Factory::getFollowing($instaxer, $nextLevelUser);
+                            $heavyFuckingFollowing = \Joiner\Fall\Factory::getFollowing($instaxer, $nextLevelUser);
 
 
-                            shuffle($heavyFuckingFollowers);
-                            $heavyFuckingFollowers = array_slice($heavyFuckingFollowers, 0, random_int(4, 8));
-                            foreach ($heavyFuckingFollowers as $fuckingFollower) {
+                            shuffle($heavyFuckingFollowing);
+                            $heavyFuckingFollowing = array_slice($heavyFuckingFollowing, 0, random_int(4, 8));
+                            foreach ($heavyFuckingFollowing as $fuckingFollower) {
 
                                 if (!empty($nextLevelUser)) {
                                     echo sprintf("\r\n\t" . 'HEAVY USER STALKING: %s; ', $nextLevelUser->getUsername());
