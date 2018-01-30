@@ -19,7 +19,7 @@ $data = $images->get();
 try {
     foreach ($data as $singleData) {
 
-        dump($singleData);
+//        dump($singleData);
         $response = Push::repostPhotoByURLMulti($singleData->getUrl(), $instaxer);
 
         print 'ok' . "\r\n";

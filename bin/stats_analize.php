@@ -42,7 +42,7 @@ foreach ($followers as $follower) {
         if ($ratio < 0.5) {
             echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!';
         }
-        dump(round($ratio, 2));
+//        dump(round($ratio, 2));
     } else {
         echo "skip\r\n";
     }

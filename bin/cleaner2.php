@@ -38,13 +38,13 @@ try {
             if ($userMostImportantStat < 10000) {
                 echo $c . ": \t";
 
-                dump($instaxer->instagram->unfollowUser($user));
+//                dump($instaxer->instagram->unfollowUser($user));
 
                 echo $user->getUsername() . ' ' . $userMostImportantStat . ' [ out ] ' . "\r\n";
 
                 Sleep::run(20, true);
 
-                dump($instaxer->instagram->showFriendship($user));
+//                dump($instaxer->instagram->showFriendship($user));
                 Sleep::run(5, true);
             } else {
                 echo $c . ": \t";

@@ -5,14 +5,13 @@ require __DIR__ . '/../config/config.php';
 
 $maxer = new \Maxer\Maxer();
 
-$maxer->login('', '');
+$username = $array[$argv[1]]['username'];
+$password = $array[$argv[1]]['password'];
+$maxer->login($username, $password);
 
 $photos = $maxer->getObservedPhotos(12);
 
 foreach ($photos as $photo) {
     $vouteResults = $maxer->setPhotoVoute($photo, 6);
-
-    dump($vouteResults->getStatusCode());
-    dump($vouteResults->getBody()->getContents());
     sleep(10);
 }

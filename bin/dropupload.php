@@ -15,7 +15,7 @@ $data = $images->get();
 try {
     foreach ($data as $singleData) {
 
-        dump($singleData);
+//        dump($singleData);
         $response = Push::downloadPhotoByURLToDropbox($singleData->getUrl());
 
         print 'ok' . "\r\n";
