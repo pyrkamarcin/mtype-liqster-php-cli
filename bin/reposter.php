@@ -34,7 +34,7 @@ try {
 
     foreach ($userFeed->getItems() as $item) {
 
-        if ($item->getLikeCount() > $avrg * 0.99) {
+        if ($item->getLikeCount() > $avrg * 1.15) {
 
             $image = $item->getImageVersions2()->getCandidates();
             $downloader = new \Instaxer\Downloader();
@@ -51,6 +51,7 @@ try {
                 $sum += $value;
             }
 
+            echo 'Avg: ' . round($avrg, 2) . "\r\n";
             echo 'Acc: ' . round($sum / count($accuracyScore), 2) . "\r\n";
 
             $response = $requestPublishPhoto
