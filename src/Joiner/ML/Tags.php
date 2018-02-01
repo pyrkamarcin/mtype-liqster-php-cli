@@ -29,7 +29,8 @@ class Tags
      */
     public function parse(): array
     {
-        preg_match_all("/(#\w+)/", $this->feedItem->getCaption()->getText(), $samples);
+
+        preg_match_all("/(#\w+)/", $this->feedItem->getCaption(), $samples);
         $array[] = $samples;
 
         $array = array_merge(...array_merge(...$array));

@@ -41,18 +41,7 @@ try {
             $downloader->drain($image[0]->getUrl());
             $requestPublishPhoto = new Instaxer\Request\PublishPhoto($instaxer);
 
-            $tags = (new \Joiner\ML\Tags($item))->parse();
-
-            $accuracyScore = \Joiner\ML\Accuracy::calc($array[$argv[1]]['tags'], $tags);
-
-            $sum = 0;
-
-            foreach ($accuracyScore as $key => $value) {
-                $sum += $value;
-            }
-
             echo 'Avg: ' . round($avrg, 2) . "\r\n";
-            echo 'Acc: ' . round($sum / count($accuracyScore), 2) . "\r\n";
 
             $response = $requestPublishPhoto
                 ->pull(
