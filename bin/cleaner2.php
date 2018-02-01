@@ -15,7 +15,6 @@ try {
 
     try {
         $following = \Joiner\Fall\Factory::getFollowing($instaxer, $account);
-        $followers = \Joiner\Fall\Factory::getFollowers($instaxer, $account);
     } catch (Exception $e) {
         echo $e->getMessage() . "\n";
         exit(255);

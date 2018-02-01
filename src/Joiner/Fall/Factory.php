@@ -48,8 +48,8 @@ class Factory
     {
         $cache = new FilesystemAdapter();
 
-        $followingCache = $cache->getItem('instagram.following.' . $account->getUsername());
-        $followingCache->expiresAfter(36000);
+        $followingCache = $cache->getItem('instaxer.following.' . $account->getUsername());
+        $followingCache->expiresAfter(60);
 
         if (!$followingCache->isHit()) {
             $followingObj = new Following($instaxer);

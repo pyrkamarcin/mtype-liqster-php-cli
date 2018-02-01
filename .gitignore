@@ -6,3 +6,5 @@
 /bash.exe.stackdump
 /tests/coverage/
 /var/storage/*
+!/var/storage/.gitkeep
+/var/cache/instaxer/profiles/*.json

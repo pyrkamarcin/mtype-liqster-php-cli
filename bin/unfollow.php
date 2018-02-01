@@ -19,6 +19,10 @@ try {
         echo 'Liczba "following": ' . count($following) . "\r\n";
 
         foreach ($following as $user) {
+
+            /**
+             * @var \Instagram\API\Response\Model\User $user
+             */
             $status = $instaxer->instagram->unfollowUser($user);
             echo "\r\n" . 'User: ' . $user->getUsername();
             echo ' RES: ' . ($status->getMessage() ? ' OK' : " NO");
