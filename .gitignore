@@ -3,7 +3,6 @@
 /composer.lock
 /vendor/
 /config/config.php
-/var/storage/*.tmp
 /bash.exe.stackdump
-/var/storage/*.jpg
 /tests/coverage/
+/var/storage/*
