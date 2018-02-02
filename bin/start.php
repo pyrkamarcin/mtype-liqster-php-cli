@@ -3,10 +3,8 @@
 use Instaxer\Domain\Model\ItemRepository;
 use Joiner\Connections\Factory;
 
-
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../config/config.php';
-
 
 try {
     echo date('H:i:s') . " INIT \r\n";
@@ -18,16 +16,15 @@ try {
     echo $e->getMessage() . "\n";
 }
 
-
 $loop = React\EventLoop\Factory::create();
 
 $loop->addPeriodicTimer(5, function () {
     $memory = memory_get_usage() / 1024 / 1024;
-    $formatted = number_format($memory, 2) . 'M';
+    $formatted = number_format($memory, 1) . 'M';
     echo date('H:i:s') . " SYSTEM | IDLE | Current memory usage: {$formatted}\n";
 });
 
-$loop->addPeriodicTimer(random_int(60, 200), function () use ($instaxer, $array) {
+$loop->addPeriodicTimer(random_int(20, 60), function () use ($instaxer, $array) {
     try {
         $counter = random_int(1, 2);
         $long = random_int(1, 6);
@@ -67,12 +64,14 @@ $loop->addPeriodicTimer(random_int(60, 200), function () use ($instaxer, $array)
                 echo sprintf("\r\n");
             }
         }
+
+        unset($itemRepository);
     } catch (Exception $e) {
         echo $e->getMessage() . "\n";
     }
 });
 
-$loop->addPeriodicTimer(random_int(120, 180), function () use ($instaxer, $array) {
+$loop->addPeriodicTimer(random_int(80, 100), function () use ($instaxer, $array) {
     try {
         $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
 
@@ -86,7 +85,7 @@ $loop->addPeriodicTimer(random_int(120, 180), function () use ($instaxer, $array
         $hashTagFeed = $instaxer->instagram->getTagFeed($item->getItem());
 
         $elements = $hashTagFeed->getItems();
-        $elements = array_slice($elements, 0, random_int(1, 4));
+        $elements = array_slice($elements, 0, random_int(3, 8));
 
         echo date('H:i:s') . " FOLLOWER | READ FEED \r\n";
         foreach ($elements as $hashTagFeedItem) {
@@ -113,12 +112,16 @@ $loop->addPeriodicTimer(random_int(120, 180), function () use ($instaxer, $array
                 }
             }
         }
+
+        unset($itemRepository);
+        unset($following);
+        unset($elements);
     } catch (Exception $e) {
         echo $e->getMessage() . "\n";
     }
 });
 
-$loop->addPeriodicTimer(random_int(120, 150), function () use ($instaxer, $array) {
+$loop->addPeriodicTimer(random_int(80, 200), function () use ($instaxer, $array) {
     try {
         $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
 
@@ -139,6 +142,41 @@ $loop->addPeriodicTimer(random_int(120, 150), function () use ($instaxer, $array
             echo ' RES: ' . ($status->getMessage() ? ' OK' : " NO");
             echo sprintf("\r\n");
         }
+
+        unset($account);
+        unset($following);
+    } catch (Exception $e) {
+        echo $e->getMessage() . "\n";
+    }
+});
+
+
+$loop->addPeriodicTimer(1000, function () use ($array) {
+    try {
+        $maxer = new \Maxer\Maxer();
+
+        $username = $array[3]['username'];
+        $password = $array[3]['password'];
+        $maxer->login($username, $password);
+
+        $users = new \Maxer\API\Request\UserRequest();
+        $users = \Maxer\API\Response\UserResponse::toObjects(\Maxer\API\Response\UserResponse::parse($users->execute(), 15));
+
+        foreach ($users as $user) {
+
+            $photos = $maxer->getUserPhotos($user, 20);
+
+            echo date('H:i:s') . " MAXER | User: " . $user->getName() . "\r\n";
+
+            foreach ($photos as $photo) {
+                $vouteResults = $maxer->setPhotoVoute($photo, 6);
+            }
+        }
+
+        unset($maxer);
+        unset($username);
+        unset($password);
+        unset($users);
     } catch (Exception $e) {
         echo $e->getMessage() . "\n";
     }
