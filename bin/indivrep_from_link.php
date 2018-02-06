@@ -34,7 +34,7 @@ try {
     var_dump($url);
 
     $response = Push::repostPhotoByURL($url, $instaxer);
-    var_dump($response);
+    var_dump($response->getStatus());
 } catch (Exception $e) {
     echo $e->getMessage() . "\n";
 }
