@@ -1,5 +1,6 @@
 <?php
 
+use Instaxer\Domain\Model\ItemRepository;
 use Joiner\Connections\Factory;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -23,13 +24,13 @@ $loop->addPeriodicTimer(5, function () {
     echo date('H:i:s') . " SYSTEM | IDLE | Current memory usage: {$formatted}\n";
 });
 
-$loop->addPeriodicTimer(120, function () use ($instaxer, $array) {
+$loop->addPeriodicTimer(200, function () use ($instaxer, $array) {
     try {
         $counter = random_int(2, 4);
-        $long = random_int(4, 8);
+        $long = random_int(2, 4);
 
         echo date('H:i:s') . " RUN | READ REPOSITORY \r\n";
-        $itemRepository = new \Instaxer\Domain\Model\ItemRepository($array[2]['tags']);
+        $itemRepository = new ItemRepository($array[2]['tags']);
 
         for ($c = 0; $c < $counter; $c++) {
 
@@ -68,103 +69,103 @@ $loop->addPeriodicTimer(120, function () use ($instaxer, $array) {
     }
 });
 
-//$loop->addPeriodicTimer(random_int(50, 90), function () use ($instaxer, $array) {
-//    try {
-//        $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
-//
-//        echo date('H:i:s') . " FOLLOWER | READ Factory::Following \r\n";
-//        $following = \Joiner\Fall\Factory::getFollowing($instaxer, $account);
-//
-//        $itemRepository = new ItemRepository($array[2]['tags']);
-//
-//        echo date('H:i:s') . " FOLLOWER | READ ITEM \r\n";
-//        $item = $itemRepository->getRandomItem();
-//        $hashTagFeed = $instaxer->instagram->getTagFeed($item->getItem());
-//
-//        $elements = $hashTagFeed->getItems();
-//        $elements = array_slice($elements, 0, random_int(4, 12));
-//
-//        echo date('H:i:s') . " FOLLOWER | READ FEED \r\n";
-//        foreach ($elements as $hashTagFeedItem) {
-//            $id = $hashTagFeedItem->getId();
-//            $user = $instaxer->instagram->getUserInfo($hashTagFeedItem->getUser())->getUser();
-//
-//            $userFollow = false;
-//
-//            foreach ($following as $followingUser) {
-//                if ($followingUser->getUsername() === $user->getUsername()) {
-//                    $userFollow = true;
-//                }
-//            }
-//            $file = file_get_contents(__DIR__ . '/../var/storage/' . $array[2]['username'] . '.tmp');
-//            $haystack = explode(';', $file);
-//            if (!in_array($user->getUsername(), $haystack, true)) {
-//                if ($userFollow !== true) {
-//
-//                    echo date('H:i:s') . " FOLLOWER | ";
-//                    echo $user->getUsername() . ' do not following me yet' . "\r\n";
-//                    $instaxer->instagram->followUser($user);
-//
-//                    file_put_contents(__DIR__ . '/../var/storage/' . $array[2]['username'] . '.tmp', $user->getUsername() . ';', FILE_APPEND);
-//                }
-//            }
-//        }
-//    } catch (Exception $e) {
-//        echo $e->getMessage() . "\n";
-//    }
-//});
-//
-//$loop->addPeriodicTimer(random_int(100, 200), function () use ($instaxer, $array) {
-//    try {
-//        $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
-//
-//        echo date('H:i:s') . " UNFOLLOWER | READ Factory::Following \r\n";
-//        $following = \Joiner\Fall\Factory::getFollowing($instaxer, $account);
-//
-//        shuffle($following);
-//        $following = array_slice($following, 0, random_int(2, 6));
-//
-//        foreach ($following as $user) {
-//
-//            echo date('H:i:s') . " UNFOLLOWER | ";
-//            /**
-//             * @var \Instagram\API\Response\Model\User $user
-//             */
-//            $status = $instaxer->instagram->unfollowUser($user);
-//            echo ' User: ' . $user->getUsername();
-//            echo ' RES: ' . ($status->getMessage() ? ' OK' : " NO");
-//            echo sprintf("\r\n");
-//        }
-//    } catch (Exception $e) {
-//        echo $e->getMessage() . "\n";
-//    }
-//});
+$loop->addPeriodicTimer(random_int(150, 250), function () use ($instaxer, $array) {
+    try {
+        $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
+
+        echo date('H:i:s') . " FOLLOWER | READ Factory::Following \r\n";
+        $following = \Joiner\Fall\Factory::getFollowing($instaxer, $account);
+
+        $itemRepository = new ItemRepository($array[2]['tags']);
+
+        echo date('H:i:s') . " FOLLOWER | READ ITEM \r\n";
+        $item = $itemRepository->getRandomItem();
+        $hashTagFeed = $instaxer->instagram->getTagFeed($item->getItem());
+
+        $elements = $hashTagFeed->getItems();
+        $elements = array_slice($elements, 0, random_int(2, 5));
+
+        echo date('H:i:s') . " FOLLOWER | READ FEED \r\n";
+        foreach ($elements as $hashTagFeedItem) {
+            $id = $hashTagFeedItem->getId();
+            $user = $instaxer->instagram->getUserInfo($hashTagFeedItem->getUser())->getUser();
+
+            $userFollow = false;
+
+            foreach ($following as $followingUser) {
+                if ($followingUser->getUsername() === $user->getUsername()) {
+                    $userFollow = true;
+                }
+            }
+            $file = file_get_contents(__DIR__ . '/../var/storage/' . $array[2]['username'] . '.tmp');
+            $haystack = explode(';', $file);
+            if (!in_array($user->getUsername(), $haystack, true)) {
+                if ($userFollow !== true) {
+
+                    echo date('H:i:s') . " FOLLOWER | ";
+                    echo $user->getUsername() . ' do not following me yet' . "\r\n";
+                    $instaxer->instagram->followUser($user);
+
+                    file_put_contents(__DIR__ . '/../var/storage/' . $array[2]['username'] . '.tmp', $user->getUsername() . ';', FILE_APPEND);
+                }
+            }
+        }
+    } catch (Exception $e) {
+        echo $e->getMessage() . "\n";
+    }
+});
+
+$loop->addPeriodicTimer(random_int(150, 200), function () use ($instaxer, $array) {
+    try {
+        $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
+
+        echo date('H:i:s') . " UNFOLLOWER | READ Factory::Following \r\n";
+        $following = \Joiner\Fall\Factory::getFollowing($instaxer, $account);
+
+        shuffle($following);
+        $following = array_slice($following, 0, random_int(1, 4));
+
+        foreach ($following as $user) {
+
+            echo date('H:i:s') . " UNFOLLOWER | ";
+            /**
+             * @var \Instagram\API\Response\Model\User $user
+             */
+            $status = $instaxer->instagram->unfollowUser($user);
+            echo ' User: ' . $user->getUsername();
+            echo ' RES: ' . ($status->getMessage() ? ' OK' : " NO");
+            echo sprintf("\r\n");
+        }
+    } catch (Exception $e) {
+        echo $e->getMessage() . "\n";
+    }
+});
 
 
-//$loop->addPeriodicTimer(1000, function () use ($array) {
-//    try {
-//        $maxer = new \Maxer\Maxer();
-//
-//        $username = $array[3]['username'];
-//        $password = $array[3]['password'];
-//        $maxer->login($username, $password);
-//
-//        $users = new \Maxer\API\Request\UserRequest();
-//        $users = \Maxer\API\Response\UserResponse::toObjects(\Maxer\API\Response\UserResponse::parse($users->execute(), 15));
-//
-//        foreach ($users as $user) {
-//
-//            $photos = $maxer->getUserPhotos($user, 20);
-//
-//            echo date('H:i:s') . " MAXER | User: " . $user->getName() . "\r\n";
-//
-//            foreach ($photos as $photo) {
-//                $maxer->setPhotoVoute($photo, 6);
-//            }
-//        }
-//    } catch (Exception $e) {
-//        echo $e->getMessage() . "\n";
-//    }
-//});
+$loop->addPeriodicTimer(600, function () use ($array) {
+    try {
+        $maxer = new \Maxer\Maxer();
+
+        $username = $array[3]['username'];
+        $password = $array[3]['password'];
+        $maxer->login($username, $password);
+
+        $users = new \Maxer\API\Request\UserRequest();
+        $users = \Maxer\API\Response\UserResponse::toObjects(\Maxer\API\Response\UserResponse::parse($users->execute(), 15));
+
+        foreach ($users as $user) {
+
+            $photos = $maxer->getUserPhotos($user, 20);
+
+            echo date('H:i:s') . " MAXER | User: " . $user->getName() . "\r\n";
+
+            foreach ($photos as $photo) {
+                $maxer->setPhotoVoute($photo, 6);
+            }
+        }
+    } catch (Exception $e) {
+        echo $e->getMessage() . "\n";
+    }
+});
 
 $loop->run();
