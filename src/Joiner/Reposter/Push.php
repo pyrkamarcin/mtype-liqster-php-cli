@@ -69,7 +69,7 @@ class Push
      * @throws \RuntimeException
      * @throws \Symfony\Component\Filesystem\Exception\IOException
      */
-    public static function repostPhotoByURL(string $url, Instaxer $instaxer, User $user): ConfigureMediaResponse
+    public static function repostPhotoByURL(string $url, Instaxer $instaxer): ConfigureMediaResponse
     {
         $dirPath = __DIR__ . '/../../../var/storage/';
         $filesystem = new Filesystem();
@@ -98,8 +98,7 @@ class Push
             $requestPublishPhoto = new Request\PublishPhoto($instaxer);
 
             return $requestPublishPhoto->pull($dirPath . 'test1.jpg', 'REPOST FROM maxmodels.pl ' .
-                'Model: ' . $user->getName() . ' ' .
-                Shuffle::go(' #maxmodels #polishmodel #nudemodel #polishgirl #sexyback #sexylingerie #sexygirl #sexyginger #gingerhair #skinnybody #bodygoals #perfectbody #perfectgirl #sexyass #hotbutt #hotmodel #hotbody #instalingerie #lingerieaddict #sensualmood #boudoirmodel #dessous #nudeart #instagirl #instamood')
+                Shuffle::go('#maxmodels #polishmodel #nudemodel #polishgirl #sexyback #sexylingerie #sexygirl #sexyginger #gingerhair #skinnybody #bodygoals #perfectbody #perfectgirl #sexyass #hotbutt #hotmodel #hotbody #instalingerie #lingerieaddict #sensualmood #boudoirmodel #dessous #nudeart #instagirl #instamood')
             );
         }
 
