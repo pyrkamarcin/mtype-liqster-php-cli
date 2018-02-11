@@ -69,7 +69,7 @@ $loop->addPeriodicTimer(200, function () use ($instaxer, $array) {
     }
 });
 
-$loop->addPeriodicTimer(random_int(150, 250), function () use ($instaxer, $array) {
+$loop->addPeriodicTimer(random_int(120, 200), function () use ($instaxer, $array) {
     try {
         $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
 
@@ -83,7 +83,7 @@ $loop->addPeriodicTimer(random_int(150, 250), function () use ($instaxer, $array
         $hashTagFeed = $instaxer->instagram->getTagFeed($item->getItem());
 
         $elements = $hashTagFeed->getItems();
-        $elements = array_slice($elements, 0, random_int(2, 5));
+        $elements = array_slice($elements, 0, random_int(2, 8));
 
         echo date('H:i:s') . " FOLLOWER | READ FEED \r\n";
         foreach ($elements as $hashTagFeedItem) {
