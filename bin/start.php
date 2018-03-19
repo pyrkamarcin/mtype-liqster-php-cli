@@ -69,7 +69,7 @@ $loop->addPeriodicTimer(200, function () use ($instaxer, $array) {
     }
 });
 
-$loop->addPeriodicTimer(random_int(200, 400), function () use ($instaxer, $array) {
+$loop->addPeriodicTimer(random_int(150, 200), function () use ($instaxer, $array) {
     try {
         $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
 
@@ -122,7 +122,7 @@ $loop->addPeriodicTimer(random_int(200, 400), function () use ($instaxer, $array
     }
 });
 
-$loop->addPeriodicTimer(random_int(200, 400), function () use ($instaxer, $array) {
+$loop->addPeriodicTimer(random_int(200, 300), function () use ($instaxer, $array) {
     try {
         $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
 
