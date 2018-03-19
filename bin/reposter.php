@@ -1,9 +1,9 @@
 <?php
 
 /**
- * reposter.php
+ * reposter.app
  *
- * php bin/reposter.php 2 polish.body
+ * app bin/reposter.app 2 polish.body
  *
  * Reposts instagram feeds into instagram acc.
  *

@@ -18,7 +18,7 @@ try {
 
 $loop = React\EventLoop\Factory::create();
 
-$loop->addPeriodicTimer(5, function () {
+$loop->addPeriodicTimer(10, function () {
     $memory = memory_get_usage() / 1024 / 1024;
     $formatted = number_format($memory, 1) . 'M';
     echo date('H:i:s') . " SYSTEM | IDLE | Current memory usage: {$formatted}\n";
@@ -69,7 +69,7 @@ $loop->addPeriodicTimer(200, function () use ($instaxer, $array) {
     }
 });
 
-$loop->addPeriodicTimer(random_int(120, 200), function () use ($instaxer, $array) {
+$loop->addPeriodicTimer(random_int(200, 400), function () use ($instaxer, $array) {
     try {
         $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
 
@@ -83,16 +83,23 @@ $loop->addPeriodicTimer(random_int(120, 200), function () use ($instaxer, $array
         $hashTagFeed = $instaxer->instagram->getTagFeed($item->getItem());
 
         $elements = $hashTagFeed->getItems();
-        $elements = array_slice($elements, 0, random_int(1, 4));
+        $elements = array_slice($elements, 0, random_int(2, 8));
 
         echo date('H:i:s') . " FOLLOWER | READ FEED \r\n";
         foreach ($elements as $hashTagFeedItem) {
             $id = $hashTagFeedItem->getId();
+
+            /**
+             * @var \Instagram\API\Response\Model\FeedItem $hashTagFeedItem
+             */
             $user = $instaxer->instagram->getUserInfo($hashTagFeedItem->getUser())->getUser();
 
             $userFollow = false;
 
             foreach ($following as $followingUser) {
+                /**
+                 * @var \Instagram\API\Response\Model\User $followingUser
+                 */
                 if ($followingUser->getUsername() === $user->getUsername()) {
                     $userFollow = true;
                 }
@@ -115,7 +122,7 @@ $loop->addPeriodicTimer(random_int(120, 200), function () use ($instaxer, $array
     }
 });
 
-$loop->addPeriodicTimer(random_int(150, 200), function () use ($instaxer, $array) {
+$loop->addPeriodicTimer(random_int(200, 400), function () use ($instaxer, $array) {
     try {
         $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
 
@@ -123,7 +130,7 @@ $loop->addPeriodicTimer(random_int(150, 200), function () use ($instaxer, $array
         $following = \Joiner\Fall\Factory::getFollowing($instaxer, $account);
 
         shuffle($following);
-        $following = array_slice($following, 0, random_int(1, 4));
+        $following = array_slice($following, 0, random_int(1, 5));
 
         foreach ($following as $user) {
 
@@ -142,7 +149,7 @@ $loop->addPeriodicTimer(random_int(150, 200), function () use ($instaxer, $array
 });
 
 
-$loop->addPeriodicTimer(600, function () use ($array) {
+$loop->addPeriodicTimer(1200, function () use ($array) {
     try {
         $maxer = new \Maxer\Maxer();
 
@@ -157,10 +164,11 @@ $loop->addPeriodicTimer(600, function () use ($array) {
 
             $photos = $maxer->getUserPhotos($user, 20);
 
-            echo date('H:i:s') . " MAXER | User: " . $user->getName() . "\r\n";
+            echo sprintf("\r\n" . 'User: %s: ' . "\r\n", $user->getName());
 
             foreach ($photos as $photo) {
-                $maxer->setPhotoVoute($photo, 6);
+                $vouteResults = $maxer->setPhotoVoute($photo, 6);
+                sleep(10);
             }
         }
     } catch (Exception $e) {

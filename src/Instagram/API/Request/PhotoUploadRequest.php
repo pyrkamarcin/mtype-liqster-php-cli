@@ -32,7 +32,7 @@ class PhotoUploadRequest extends AuthenticatedBaseRequest
             "quality" => "70"
         )));
 
-        $this->addFile("photo", new RequestFile($path, "application/octet-stream", sprintf("pending_media_%s.jpg", $uploadId)));
+        $this->addFile("photo", new RequestFile($path, "app/octet-stream", sprintf("pending_media_%s.jpg", $uploadId)));
 
     }
 

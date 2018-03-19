@@ -11,9 +11,13 @@ use Maxer\API\Model\User;
 
 $username = $array[$argv[1]]['username'];
 $password = $array[$argv[1]]['password'];
-$instaxer = Factory::createInstaxer($username, $password);
+try {
+    $instaxer = Factory::createInstaxer($username, $password);
 
-$maxer = Factory::createMaxer('jiwacut@matchpol.net', '(X:\]{v(Y.77?La)');
+    $maxer = Factory::createMaxer('jiwacut@matchpol.net', '(X:\]{v(Y.77?La)');
+} catch (\Exception $exception) {
+    print 'error: ' . $exception->getMessage() . "\r\n";
+}
 
 $user = new User();
 $user->setName($argv[2]);
@@ -25,7 +29,7 @@ foreach ($datam as $data) {
 
     try {
         foreach ($data as $singleData) {
-            $response = Push::repostPhotoByURL($singleData->getUrl(), $instaxer, $user);
+            $response = Push::repostPhotoByURL($singleData->getUrl(), $instaxer);
 
             print ' [ok] ';
             Sleep::run(10, true);

@@ -26,7 +26,7 @@ class ChangeProfilePictureAccountRequest extends AuthenticatedBaseRequest
             "_uuid", $instagram->getUUID(),
         ));
 
-        $this->addFile("profile_pic", new RequestFile($path, "application/octet-stream", "profile_pic"));
+        $this->addFile("profile_pic", new RequestFile($path, "app/octet-stream", "profile_pic"));
 
     }
 

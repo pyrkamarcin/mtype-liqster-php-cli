@@ -54,7 +54,7 @@ class Response
      */
     public function isJson()
     {
-        return $this->getContentType() == "application/json";
+        return $this->getContentType() == "app/json";
     }
 
     /**

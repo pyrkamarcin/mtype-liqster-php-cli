@@ -49,7 +49,7 @@ class Factory
         $cache = new FilesystemAdapter();
 
         $followingCache = $cache->getItem('instaxer.following.' . $account->getUsername());
-        $followingCache->expiresAfter(30);
+        $followingCache->expiresAfter(20000);
 
         if (!$followingCache->isHit()) {
             $followingObj = new Following($instaxer);
