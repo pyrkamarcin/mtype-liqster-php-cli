@@ -32,7 +32,7 @@ class Push
         $filesystem->touch(__DIR__ . '/../../../var/storage/storage.tmp');
 
         AbstractOperation::setDefaultAsync(false);
-        AbstractOperation::setDefaultToken('MTn5Od3DgSMAAAAAAAAaD2ucStBCuS6I3iuy1dNwqvIoe3HcXnu8nJGXBIuDmmi5');
+        AbstractOperation::setDefaultToken('MTn5Od3DgSMAAAAAAAApuE6qKXxCPWrtooxdv_DlKVvrgw6tFP9lf4B6sBlrC2To');
 
         if (self::checkUnique($url)) {
             file_put_contents(__DIR__ . '/../../../var/storage/storage_dropbox.tmp', $url . ';', FILE_APPEND);

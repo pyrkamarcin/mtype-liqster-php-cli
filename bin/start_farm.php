@@ -2,16 +2,14 @@
 
 use Instaxer\Domain\Model\ItemRepository;
 use Joiner\Connections\Factory;
-use Joiner\Repository\Images;
-use Joiner\Reposter\Push;
 
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../config/config.php';
 
 try {
     echo date('H:i:s') . " INIT \r\n";
-    $username = $array[2]['username'];
-    $password = $array[2]['password'];
+    $username = $array[4]['username'];
+    $password = $array[4]['password'];
     echo date('H:i:s') . " INIT | CREATE INSTAXER \r\n";
     $instaxer = Factory::createInstaxer($username, $password);
 } catch (Exception $e) {
@@ -20,13 +18,13 @@ try {
 
 $loop = React\EventLoop\Factory::create();
 
-$loop->addPeriodicTimer(10, function () {
+$loop->addPeriodicTimer(2, function () {
     $memory = memory_get_usage() / 1024 / 1024;
     $formatted = number_format($memory, 1) . 'M';
     echo date('H:i:s') . " SYSTEM | IDLE | Current memory usage: {$formatted}\n";
 });
 
-$loop->addPeriodicTimer(200, function () use ($instaxer, $array) {
+$loop->addPeriodicTimer(120, function () use ($instaxer, $array) {
     try {
         $counter = random_int(2, 4);
         $long = random_int(2, 4);
@@ -71,7 +69,7 @@ $loop->addPeriodicTimer(200, function () use ($instaxer, $array) {
     }
 });
 
-$loop->addPeriodicTimer(random_int(150, 200), function () use ($instaxer, $array) {
+$loop->addPeriodicTimer(random_int(200, 300), function () use ($instaxer, $array) {
     try {
         $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
 
@@ -153,86 +151,26 @@ $loop->addPeriodicTimer(random_int(200, 300), function () use ($instaxer, $array
 $loop->addPeriodicTimer(random_int(500, 800), function () use ($instaxer, $array) {
     try {
         $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
-        $locations = $instaxer->instagram->searchFacebookPlacesByLocation(53.431831, 14.553599);
 
-        $locations_array = array_slice($locations->getItems(), 0, random_int(2, 6));
-        foreach ($locations_array as $location) {
+        $userFeed = $instaxer->instagram->getUserFeed($account);
 
-            $items = $instaxer->instagram->getLocationFeed($location->getLocation());
+        $array = $userFeed->getItems();
+        array_reverse($array);
 
-            echo sprintf('#%s: ' . "\r\n", $location->getTitle());
+        foreach ($array as $item) {
 
-            $items_array = array_slice($items->getItems(), 0, random_int(2, 6));
-            foreach ($items_array as $hashTagFeedItem) {
-
-                $id = $hashTagFeedItem->getId();
-                $user = $instaxer->instagram->getUserInfo($hashTagFeedItem->getUser())->getUser();
-                $followRatio = $user->getFollowerCount() / $user->getFollowingCount();
-
-                echo sprintf('User: %s; ', $user->getUsername());
-                echo sprintf('id: %s,  ', $id);
-                echo sprintf('followers: %s,  ratio: %s, ', $user->getFollowerCount(), round($followRatio, 1));
-
-                $instaxer->instagram->likeMedia($hashTagFeedItem->getId());
-                echo sprintf('[liked] ');
-
-                echo sprintf("\r\n");
-            }
-        }
-
-    } catch (Exception $e) {
-        echo $e->getMessage() . "\n";
-    }
-
-});
-
-$loop->addPeriodicTimer(1200, function () use ($array) {
-    try {
-        $maxer = new \Maxer\Maxer();
-
-        $username = $array[3]['username'];
-        $password = $array[3]['password'];
-        $maxer->login($username, $password);
-
-        $users = new \Maxer\API\Request\UserRequest();
-        $users = \Maxer\API\Response\UserResponse::toObjects(\Maxer\API\Response\UserResponse::parse($users->execute(), 15));
-
-        foreach ($users as $user) {
-
-            $photos = $maxer->getUserPhotos($user, 20);
-
-            echo sprintf("\r\n" . 'User: %s: ' . "\r\n", $user->getName());
-
-            foreach ($photos as $photo) {
-                $vouteResults = $maxer->setPhotoVoute($photo, 6);
-                sleep(10);
+            if ($item->getLikeCount() <= 50) {
+                $instaxer->instagram->deleteMedia($item, $item->getMediaType());
+                echo $item->getLikeCount() . ' ' . $item->getCommentCount();
+                echo "\r\n";
+            } else {
+                echo 'skip: ' . $item->getLikeCount() . ' ' . $item->getCommentCount();
+                echo "\r\n";
             }
         }
     } catch (Exception $e) {
         echo $e->getMessage() . "\n";
     }
-});
-
-$loop->addPeriodicTimer(random_int(800, 1500), function () use ($instaxer, $array) {
-
-    $maxer = new \Maxer\Maxer();
-
-    $username = $array[3]['username'];
-    $password = $array[3]['password'];
-    $maxer->login($username, $password);
-    $images = new Images($maxer);
-    $data = $images->get();
-
-    try {
-        foreach ($data as $singleData) {
-            $response = Push::downloadPhotoByURLToDropbox($singleData->getUrl());
-
-            print 'Image from mm saved in dropbox status: ok' . "\r\n";
-        }
-    } catch (\Exception $exception) {
-        echo 'error: ' . $exception->getMessage() . "\r\n";
-    }
-
 
 });
 
