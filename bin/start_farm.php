@@ -24,7 +24,10 @@ $loop->addPeriodicTimer(2, function () {
     echo date('H:i:s') . " SYSTEM | IDLE | Current memory usage: {$formatted}\n";
 });
 
-$loop->addPeriodicTimer(120, function () use ($instaxer, $array) {
+/**
+ * RUNNER
+ */
+$loop->addPeriodicTimer(130, function () use ($instaxer, $array) {
     try {
         $counter = random_int(2, 4);
         $long = random_int(2, 4);
@@ -69,7 +72,10 @@ $loop->addPeriodicTimer(120, function () use ($instaxer, $array) {
     }
 });
 
-$loop->addPeriodicTimer(random_int(200, 300), function () use ($instaxer, $array) {
+/**
+ * FOLLOWER
+ */
+$loop->addPeriodicTimer(random_int(150, 300), function () use ($instaxer, $array) {
     try {
         $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
 
@@ -122,7 +128,10 @@ $loop->addPeriodicTimer(random_int(200, 300), function () use ($instaxer, $array
     }
 });
 
-$loop->addPeriodicTimer(random_int(200, 300), function () use ($instaxer, $array) {
+/**
+ * UNFOLLOWER
+ */
+$loop->addPeriodicTimer(random_int(600, 900), function () use ($instaxer, $array) {
     try {
         $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
 
@@ -130,7 +139,7 @@ $loop->addPeriodicTimer(random_int(200, 300), function () use ($instaxer, $array
         $following = \Joiner\Fall\Factory::getFollowing($instaxer, $account);
 
         shuffle($following);
-        $following = array_slice($following, 0, random_int(1, 4));
+        $following = array_slice($following, 0, random_int(1, 2));
 
         foreach ($following as $user) {
 
@@ -148,30 +157,33 @@ $loop->addPeriodicTimer(random_int(200, 300), function () use ($instaxer, $array
     }
 });
 
-$loop->addPeriodicTimer(random_int(500, 800), function () use ($instaxer, $array) {
-    try {
-        $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
-
-        $userFeed = $instaxer->instagram->getUserFeed($account);
-
-        $array = $userFeed->getItems();
-        array_reverse($array);
-
-        foreach ($array as $item) {
-
-            if ($item->getLikeCount() <= 50) {
-                $instaxer->instagram->deleteMedia($item, $item->getMediaType());
-                echo $item->getLikeCount() . ' ' . $item->getCommentCount();
-                echo "\r\n";
-            } else {
-                echo 'skip: ' . $item->getLikeCount() . ' ' . $item->getCommentCount();
-                echo "\r\n";
-            }
-        }
-    } catch (Exception $e) {
-        echo $e->getMessage() . "\n";
-    }
-
-});
+/**
+ * WIPER
+ */
+//$loop->addPeriodicTimer(random_int(500, 800), function () use ($instaxer, $array) {
+//    try {
+//        $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
+//
+//        $userFeed = $instaxer->instagram->getUserFeed($account);
+//
+//        $array = $userFeed->getItems();
+//        array_reverse($array);
+//
+//        foreach ($array as $item) {
+//
+//            if ($item->getLikeCount() <= 50) {
+//                $instaxer->instagram->deleteMedia($item, $item->getMediaType());
+//                echo $item->getLikeCount() . ' ' . $item->getCommentCount();
+//                echo "\r\n";
+//            } else {
+//                echo 'skip: ' . $item->getLikeCount() . ' ' . $item->getCommentCount();
+//                echo "\r\n";
+//            }
+//        }
+//    } catch (Exception $e) {
+//        echo $e->getMessage() . "\n";
+//    }
+//
+//});
 
 $loop->run();

@@ -33,7 +33,10 @@ try {
     $url = substr($url, 2);
     var_dump($url);
 
-    $response = Push::repostPhotoByURL($url, $instaxer);
+    $user = $crawler->filter('.ctn')->filter('.username')->text();
+    var_dump($user);
+
+    $response = Push::repostPhotoByURL($url, $instaxer, $user);
     var_dump($response->getStatus());
 } catch (Exception $e) {
     echo $e->getMessage() . "\n";
