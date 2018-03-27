@@ -51,7 +51,7 @@ try {
 
                         file_put_contents(__DIR__ . '/../var/storage/' . $array[$argv[1]]['username'] . '.tmp', $user->getUsername() . ';', FILE_APPEND);
 
-                        Sleep::run(20, true);
+                        Sleep::run(70, true);
                     }
                 }
             }
