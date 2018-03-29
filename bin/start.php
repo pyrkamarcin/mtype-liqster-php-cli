@@ -71,7 +71,7 @@ $loop->addPeriodicTimer(200, function () use ($instaxer, $array) {
     }
 });
 
-$loop->addPeriodicTimer(random_int(150, 200), function () use ($instaxer, $array) {
+$loop->addPeriodicTimer(random_int(200, 400), function () use ($instaxer, $array) {
     try {
         $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
 
@@ -124,7 +124,7 @@ $loop->addPeriodicTimer(random_int(150, 200), function () use ($instaxer, $array
     }
 });
 
-$loop->addPeriodicTimer(random_int(200, 300), function () use ($instaxer, $array) {
+$loop->addPeriodicTimer(random_int(200, 400), function () use ($instaxer, $array) {
     try {
         $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
 
@@ -150,7 +150,7 @@ $loop->addPeriodicTimer(random_int(200, 300), function () use ($instaxer, $array
     }
 });
 
-$loop->addPeriodicTimer(random_int(500, 800), function () use ($instaxer, $array) {
+$loop->addPeriodicTimer(random_int(200, 400), function () use ($instaxer, $array) {
     try {
         $account = $instaxer->instagram->getCurrentUserAccount()->getUser();
         $locations = $instaxer->instagram->searchFacebookPlacesByLocation(53.431831, 14.553599);
@@ -186,7 +186,7 @@ $loop->addPeriodicTimer(random_int(500, 800), function () use ($instaxer, $array
 
 });
 
-$loop->addPeriodicTimer(1200, function () use ($array) {
+$loop->addPeriodicTimer(2000, function () use ($array) {
     try {
         $maxer = new \Maxer\Maxer();
 
